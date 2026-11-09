@@ -1,0 +1,200 @@
+---
+import { CONTRIBUTING, REPO } from '../data/site';
+
+const steps = [
+  { title: 'Fork the repo', body: "The code is MIT, so it's yours to change.", field: null },
+  { title: 'Make a Supabase project', body: 'Run the migrations on the free plan.', field: 'daily' },
+  { title: 'Turn on Google sign-in', body: 'Add yourself as the only user.', field: 'records' },
+  { title: 'Build the APK', body: 'Build from GitHub on expo.dev, then install it.', field: 'home' },
+];
+---
+
+<section id="copy" class="weave weave--deep field-shell on-dark">
+  <div class="strip"></div>
+  <div class="wrap body">
+    <div class="head">
+      <h2>Make your own copy.</h2>
+      <p>Four steps, all on free plans. CONTRIBUTING.md on GitHub walks you through each one.</p>
+    </div>
+    <div class="cols">
+      <ol>
+        {steps.map((s, i) => (
+          <li>
+            <span class:list={['num', s.field ? `num--field field-${s.field}` : 'num--cream']}>{i + 1}</span>
+            <span class="step">
+              <strong>{s.title}</strong>
+              <span>{s.body}</span>
+            </span>
+          </li>
+        ))}
+      </ol>
+      <div class="side">
+        <div class="term">
+          <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
+          <div class="wrapline"><span class="prompt">$</span> git clone {REPO}.git</div>
+          <div><span class="prompt">$</span> cd my-app &amp;&amp; npm install</div>
+          <div><span class="prompt">$</span> cp .env.example .env</div>
+          <div class="comment"># then fill in the three values</div>
+        </div>
+        <a class="btn btn--cream cta" href={CONTRIBUTING}>
+          Make your own copy
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
+        </a>
+        <p class="fine">Android first. The web build covers most screens. There is no iPhone app yet.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<style>
+  .body {
+    padding-block: 96px;
+    display: flex;
+    flex-direction: column;
+    gap: 48px;
+  }
+
+  .head {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+    max-width: 720px;
+  }
+
+  h2 {
+    font-size: clamp(44px, 6.4vw, 92px);
+    line-height: 0.94;
+    letter-spacing: -0.04em;
+  }
+
+  .head p {
+    font-size: 19px;
+    max-width: 46ch;
+  }
+
+  .cols {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 48px;
+  }
+
+  ol {
+    flex: 1 1 440px;
+    min-width: 0;
+    margin: 0;
+    padding: 0;
+    list-style: none;
+  }
+
+  li {
+    display: flex;
+    gap: 18px;
+    padding: 18px 0;
+    border-top: 2px solid rgb(var(--on-field) / 0.35);
+  }
+
+  li:last-child {
+    border-bottom: 2px solid rgb(var(--on-field) / 0.35);
+  }
+
+  .num {
+    flex: 0 0 auto;
+    width: 48px;
+    height: 48px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+    font-size: 22px;
+  }
+
+  .num--cream {
+    background: rgb(var(--on-field));
+    color: rgb(var(--shell-field));
+  }
+
+  .num--field {
+    background: rgb(var(--field));
+    color: rgb(var(--on-field));
+    border: 2px solid rgb(var(--on-field));
+  }
+
+  .step {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .step strong {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .step span {
+    opacity: 0.85;
+  }
+
+  .side {
+    flex: 1 1 380px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .term {
+    background: rgb(var(--night));
+    color: rgb(236 231 245);
+    border: 2px solid rgb(var(--on-field) / 0.25);
+    border-radius: 18px;
+    padding: 20px;
+    font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+    font-size: 14px;
+    line-height: 1.8;
+  }
+
+  .lights {
+    display: flex;
+    gap: 6px;
+    margin-bottom: 12px;
+  }
+
+  .lights span {
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    background: rgb(var(--over-fill));
+  }
+
+  .lights span:nth-child(2) {
+    background: rgb(var(--watch-fill));
+  }
+
+  .lights span:nth-child(3) {
+    background: rgb(var(--good-fill));
+  }
+
+  .wrapline {
+    overflow-wrap: anywhere;
+  }
+
+  .prompt {
+    color: rgb(var(--gold));
+  }
+
+  .comment {
+    color: rgb(179 174 203);
+  }
+
+  .cta {
+    align-self: flex-start;
+    min-height: 60px;
+    padding-inline: 28px;
+    font-size: 19px;
+  }
+
+  .fine {
+    font-size: 15px;
+    opacity: 0.85;
+  }
+</style>

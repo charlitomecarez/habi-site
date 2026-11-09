@@ -1,0 +1,202 @@
+---
+import { dishes, limits } from '../data/site';
+
+const first = dishes[0];
+---
+
+<section class="ulam">
+  <div class="wrap row">
+    <div class="text">
+      <h2>Hungry? Roll today's ulam.</h2>
+      <p class="lead">Pick a limit, and my-app picks a dish that fits. This one runs in your browser, with no account and no AI call.</p>
+      <div class="limits" role="group" aria-label="Daily limit" data-limits hidden>
+        {limits.map((n) => (
+          <button type="button" class="limit" data-limit={n} aria-pressed={n === 99 ? 'true' : 'false'}>₱{n} or less</button>
+        ))}
+      </div>
+    </div>
+    <div class="table">
+      <div class="plate">
+        <div class="dish" aria-live="polite">
+          <p class="dish-name" data-dish-name>{first.name}</p>
+          <span class="price" data-dish-price>₱{first.price}</span>
+        </div>
+      </div>
+      <button type="button" class="roll" data-roll hidden>
+        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 12a9 9 0 0 1 15.5-6.2L21 8M21 3v5h-5M21 12a9 9 0 0 1-15.5 6.2L3 16M3 21v-5h5"></path></svg>
+        Roll again
+      </button>
+    </div>
+  </div>
+</section>
+
+<script>
+  import { dishes } from '../data/site';
+
+  const name = document.querySelector<HTMLElement>('[data-dish-name]')!;
+  const price = document.querySelector<HTMLElement>('[data-dish-price]')!;
+  const roll = document.querySelector<HTMLButtonElement>('[data-roll]')!;
+  const group = document.querySelector<HTMLElement>('[data-limits]')!;
+  const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-limit]'));
+
+  let limit = 99;
+  let current = dishes[0];
+
+  function show() {
+    name.textContent = current.name;
+    price.textContent = `₱${current.price}`;
+    buttons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.limit) === limit)));
+  }
+
+  function rollWithin(max: number, avoid: number) {
+    const pool = dishes.filter((d) => d.price <= max);
+    const options = pool.filter((d) => d.id !== avoid);
+    limit = max;
+    current = options[Math.floor(Math.random() * options.length)] ?? pool[0];
+    show();
+  }
+
+  buttons.forEach((b) =>
+    b.addEventListener('click', () => {
+      const n = Number(b.dataset.limit);
+      if (current.price <= n) {
+        limit = n;
+        show();
+      } else {
+        rollWithin(n, -1);
+      }
+    }),
+  );
+  roll.addEventListener('click', () => rollWithin(limit, current.id));
+
+  group.hidden = false;
+  roll.hidden = false;
+</script>
+
+<style>
+  .ulam {
+    --focus: var(--shell-field);
+    color: rgb(var(--ink));
+    background-color: rgb(var(--gold));
+    background-image:
+      repeating-linear-gradient(90deg, rgb(255 255 255 / 0.16) 0 18px, transparent 18px 36px),
+      repeating-linear-gradient(0deg, rgb(163 72 8 / 0.1) 0 18px, transparent 18px 36px);
+  }
+
+  .row {
+    padding-block: 88px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .text {
+    flex: 1 1 340px;
+    min-width: 0;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  h2 {
+    font-size: clamp(40px, 5.4vw, 76px);
+    line-height: 0.96;
+    letter-spacing: -0.035em;
+  }
+
+  .lead {
+    font-size: 19px;
+  }
+
+  .limits {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+  }
+
+  .limit {
+    min-height: 44px;
+    padding: 0 18px;
+    border-radius: 999px;
+    font-size: 15px;
+    font-weight: 900;
+    cursor: pointer;
+    border: 2px solid rgb(var(--ink) / 0.45);
+    background: transparent;
+    color: rgb(var(--ink));
+  }
+
+  .limit[aria-pressed='true'] {
+    border-color: rgb(var(--shell-field));
+    background: rgb(var(--shell-field));
+    color: rgb(var(--on-field));
+  }
+
+  .table {
+    flex: 0 1 420px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 24px;
+  }
+
+  .plate {
+    width: min(340px, 100%);
+    aspect-ratio: 1;
+    border-radius: 50%;
+    background: rgb(255 251 240);
+    border: 14px solid rgb(233 221 189);
+    box-shadow: 0 18px 32px rgb(163 72 8 / 0.3);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 36px;
+    text-align: center;
+  }
+
+  .dish {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .dish-name {
+    font-size: clamp(24px, 3vw, 32px);
+    line-height: 1.08;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .price {
+    font-size: 16px;
+    font-weight: 900;
+    padding: 6px 14px;
+    border-radius: 999px;
+    background: rgb(var(--shell-field));
+    color: rgb(var(--on-field));
+  }
+
+  .roll {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 56px;
+    padding: 0 28px;
+    border: 0;
+    border-radius: 16px;
+    background: rgb(var(--shell-field));
+    color: rgb(var(--on-field));
+    font-weight: 900;
+    font-size: 18px;
+    cursor: pointer;
+  }
+
+  .roll:active {
+    transform: translateY(1px);
+  }
+</style>

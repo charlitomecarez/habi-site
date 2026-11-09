@@ -1,0 +1,72 @@
+---
+const items = [
+  ['How do I install it?', 'You build the APK from your own fork on expo.dev, then install it on your Android phone. my-app is not on the Play Store.'],
+  ['What stays on the phone?', 'Steps, sleep, screen time, checks and the saved weather place. Everything else goes to your own Supabase project.'],
+  ['Why is a module missing?', "It needs a key you haven't added. A module without its key hides itself."],
+  ['Can I use it on an iPhone?', 'The web build covers most screens, so it works in Safari. An iPhone app is not built yet.'],
+];
+---
+
+<section id="faq" class="faq">
+  <div class="wrap row">
+    <h2>Questions people ask.</h2>
+    <div class="list">
+      {items.map(([q, a]) => (
+        <details>
+          <summary>{q}</summary>
+          <p>{a}</p>
+        </details>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .faq {
+    background: rgb(var(--muted));
+  }
+
+  .row {
+    padding-block: 88px 96px;
+    display: flex;
+    flex-wrap: wrap;
+    gap: 32px 64px;
+    align-items: flex-start;
+  }
+
+  h2 {
+    flex: 1 1 260px;
+    max-width: 10ch;
+    font-size: clamp(38px, 5vw, 64px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  .list {
+    flex: 2 1 480px;
+    min-width: 0;
+    display: flex;
+    flex-direction: column;
+  }
+
+  details {
+    padding: 20px 0;
+    border-top: 3px solid rgb(var(--fg));
+  }
+
+  details:last-child {
+    border-bottom: 3px solid rgb(var(--fg));
+  }
+
+  summary {
+    min-height: 28px;
+    font-weight: 900;
+    font-size: 22px;
+    cursor: pointer;
+  }
+
+  p {
+    margin-top: 10px;
+    color: rgb(var(--fg-muted));
+  }
+</style>

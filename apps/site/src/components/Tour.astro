@@ -1,0 +1,815 @@
+---
+const stops = [
+  { id: 't-home', label: 'Home', field: 'shell' },
+  { id: 't-todos', label: 'Todos', field: 'daily' },
+  { id: 't-vault', label: 'Vault', field: 'people' },
+  { id: 't-money', label: 'Money', field: 'records' },
+  { id: 't-vehicle', label: 'Vehicle', field: 'home' },
+];
+const week = [
+  ['M', 'good'], ['T', 'good'], ['W', 'watch'], ['T', 'good'], ['F', 'over'], ['S', 'good'], ['S', 'muted'],
+];
+const tiles = [
+  ['Todos', '4 left'], ['Spent today', '₱312'], ['Weather', '31°'], ['Steps', '6,204'],
+];
+const vault = [
+  { letter: 'G', name: 'GCash', tone: 'records', dots: 8 },
+  { letter: 'M', name: 'Mail', tone: 'people', dots: 10 },
+  { letter: 'W', name: 'Home Wi-Fi', tone: 'home', dots: 12 },
+];
+const services = [
+  { name: 'Oil change', status: 'Due soon', kind: 'watch', fill: 88, note: 'At 12,600 km. 120 km left.' },
+  { name: 'Drive belt', status: 'On track', kind: 'plain', fill: 45, note: 'At 18,000 km. 5,520 km left.' },
+  { name: 'Brake check', status: 'Overdue', kind: 'over', fill: 100, note: 'Was due at 12,000 km.' },
+];
+---
+
+<section id="tour" class="tour">
+  <div class="wrap head">
+    <h2>Five screens you'd open every day.</h2>
+    <nav aria-label="Tour stops">
+      {stops.map((s) => <a href={`#${s.id}`} class={`field-${s.field}`}>{s.label}</a>)}
+    </nav>
+  </div>
+
+  <!-- Home: the one full phone -->
+  <div id="t-home" class="weave weave--deep field-shell on-dark" data-reveal>
+    <div class="wrap band band--split">
+      <div class="text">
+        <h3 class="big">Home speaks first.</h3>
+        <p class="lead">Every module feeds one sentence. You read it, and you know what today needs.</p>
+        <ul class="legend">
+          <li><span class="key key--good" aria-hidden="true"></span>Green: the day went to plan</li>
+          <li><span class="key key--watch" aria-hidden="true"></span>Gold: something needs a look</li>
+          <li><span class="key key--over" aria-hidden="true"></span>Pink: something went over</li>
+        </ul>
+      </div>
+      <div
+        class="phone"
+        role="img"
+        aria-label="Home screen with a week band: four good days, one to watch and one over. Tiles show 4 todos left, ₱312 spent today, 31 degrees and 6,204 steps."
+      >
+        <div class="screen" aria-hidden="true">
+          <div class="screen-top">
+            <span class="small">Good morning</span>
+            <span class="say">Three things need you. The rest can wait.</span>
+          </div>
+          <div class="screen-body">
+            <div class="mini-card">
+              <span class="small muted">This week</span>
+              <div class="week">
+                {week.map(([d, tone], i) => (
+                  <div class="wday">
+                    <span class={`wbar wbar--${tone}`} style={`--i: ${i}`}></span>
+                    {d}
+                  </div>
+                ))}
+              </div>
+            </div>
+            <div class="tiles">
+              {tiles.map(([label, value]) => (
+                <div class="mini-card tile">
+                  <span class="tiny muted">{label}</span>
+                  <span class="tile-value">{value}</span>
+                </div>
+              ))}
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Todos and Vault, side by side -->
+  <div class="pair">
+    <div id="t-todos" class="weave field-daily on-dark" data-reveal>
+      <div class="band band--half">
+        <h3 class="mid">Todos that remind you.</h3>
+        <p class="lead">Check one off, and Home stops asking. Give one a time, and your phone tells you when.</p>
+        <div class="mock" role="img" aria-label="Todo list: Renew OR/CR is checked. Send rent to Ate is due today. A reminder is set for today, 5:00 PM.">
+          <div class="sheet" aria-hidden="true">
+            <div class="todo line">
+              <span class="box box--done"><svg class="tick" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span>
+              <span class="todo-name done">Renew OR/CR</span>
+            </div>
+            <div class="todo line">
+              <span class="box"></span>
+              <span class="todo-name">Send rent to Ate</span>
+              <span class="pill pill--watch today">Today</span>
+            </div>
+            <div class="todo">
+              <span class="box"></span>
+              <span class="todo-name">Buy rice, 5 kg</span>
+            </div>
+          </div>
+          <div class="reminder" aria-hidden="true">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
+            Reminder set for today, 5:00 PM
+          </div>
+        </div>
+      </div>
+    </div>
+    <div id="t-vault" class="weave field-people on-dark" data-reveal>
+      <div class="band band--half">
+        <h3 class="mid">A vault that stays locked.</h3>
+        <p class="lead">Passwords are encrypted on your phone before they go anywhere. Only your PIN opens them.</p>
+        <div class="mock" role="img" aria-label="Locked vault with three entries, GCash, Mail and Home Wi-Fi, each shown as dots.">
+          <div class="sheet" aria-hidden="true">
+            <div class="vault-head line">
+              <span>Vault</span>
+              <span class="lock">
+                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
+                Locked
+              </span>
+            </div>
+            {vault.map((v, i) => (
+              <div class:list={['entry', { line: i < vault.length - 1 }]}>
+                <span class={`letter letter--${v.tone}`}>{v.letter}</span>
+                <div class="entry-text">
+                  <span class="entry-name">{v.name}</span>
+                  <span class="dots" style={`--i: ${i}`}>{'•'.repeat(v.dots)}</span>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Money as an equation -->
+  <div id="t-money" class="weave field-records on-dark" data-reveal>
+    <div class="wrap band band--stack">
+      <div class="band-head">
+        <h3 class="big">Money, in pesos.</h3>
+        <p class="lead narrow">Every wallet adds up to one number. Bills say Due soon before they're late, and Paid when they're done.</p>
+      </div>
+      <div class="sum" role="img" aria-label="GCash ₱3,410.20 plus MariBank ₱14,830.30 equals ₱18,240.50.">
+        <div class="wallet" aria-hidden="true"><span class="wallet-name">GCash</span><span class="amount">₱3,410.20</span></div>
+        <span class="op" aria-hidden="true">+</span>
+        <div class="wallet" aria-hidden="true"><span class="wallet-name">MariBank</span><span class="amount">₱14,830.30</span></div>
+        <span class="op" aria-hidden="true">=</span>
+        <div class="wallet wallet--total" aria-hidden="true">
+          <span class="wallet-name">Total</span>
+          <span class="amount amount--total" data-count="18240.50" data-format="peso">₱18,240.50</span>
+        </div>
+      </div>
+      <div class="bills">
+        <span class="bill">Meralco ₱2,315.40 <span class="pill pill--good bill-pill">Paid</span></span>
+        <span class="bill">Globe postpaid ₱1,299.00 <span class="pill pill--watch bill-pill">Due soon</span></span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Vehicle as a big odometer -->
+  <div id="t-vehicle" class="weave field-home on-dark" data-reveal>
+    <div class="wrap band band--stack">
+      <div class="band-head">
+        <h3 class="big">The ADV knows its next service.</h3>
+        <p class="lead narrow">Enter the odometer after a ride. my-app counts down to the oil change, the drive belt and the brakes.</p>
+      </div>
+      <div class="odo">
+        <span class="odo-label">Honda ADV 160 odometer</span>
+        <span class="odo-value" aria-hidden="true" data-count="12480" data-format="km">12,480 km</span>
+        <span class="sr-only">12,480 km</span>
+      </div>
+      <ul class="services">
+        {services.map((s) => (
+          <li>
+            <div class="service-head">
+              <span class="service-name">{s.name}</span>
+              <span class={`status status--${s.kind}`}>{s.status}</span>
+            </div>
+            <div class="track" aria-hidden="true">
+              <div class={`fill fill--${s.kind}`} style={`width: ${s.fill}%`}></div>
+            </div>
+            <span>{s.note}</span>
+          </li>
+        ))}
+      </ul>
+    </div>
+  </div>
+</section>
+
+<script>
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const peso = new Intl.NumberFormat('en-PH', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+  const whole = new Intl.NumberFormat('en-PH', { maximumFractionDigits: 0 });
+  const format = (el: HTMLElement, n: number) =>
+    el.dataset.format === 'peso' ? `₱${peso.format(n)}` : `${whole.format(n)} km`;
+
+  function countUp(el: HTMLElement) {
+    const target = Number(el.dataset.count);
+    const start = performance.now();
+    const duration = 1400;
+    const step = (now: number) => {
+      const t = Math.min(1, (now - start) / duration);
+      const eased = 1 - Math.pow(1 - t, 4);
+      el.textContent = format(el, target * eased);
+      if (t < 1) requestAnimationFrame(step);
+    };
+    requestAnimationFrame(step);
+  }
+
+  if (!reduce && 'IntersectionObserver' in window) {
+    const counters = Array.from(document.querySelectorAll<HTMLElement>('[data-count]'));
+    counters.forEach((el) => (el.textContent = format(el, 0)));
+
+    const io = new IntersectionObserver(
+      (entries) => {
+        entries.forEach((entry) => {
+          if (!entry.isIntersecting) return;
+          entry.target.classList.add('is-in');
+          entry.target.querySelectorAll<HTMLElement>('[data-count]').forEach(countUp);
+          io.unobserve(entry.target);
+        });
+      },
+      { threshold: 0.4 },
+    );
+    document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
+  } else {
+    document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+  }
+</script>
+
+<style>
+  .tour {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .head {
+    width: 100%;
+    padding-bottom: 40px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 40px;
+  }
+
+  h2 {
+    max-width: 14ch;
+    font-size: clamp(38px, 5vw, 72px);
+    line-height: 0.98;
+    letter-spacing: -0.035em;
+  }
+
+  nav {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    font-size: 15px;
+    font-weight: 700;
+  }
+
+  nav a {
+    display: inline-flex;
+    align-items: center;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    background: rgb(var(--field));
+    color: rgb(var(--on-field));
+    text-decoration: none;
+  }
+
+  .band {
+    display: flex;
+  }
+
+  .band--split {
+    padding-block: 72px;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px 64px;
+  }
+
+  .band--half {
+    max-width: 520px;
+    margin: 0 auto;
+    padding: 72px 20px;
+    flex-direction: column;
+    gap: 24px;
+  }
+
+  .band--stack {
+    padding-block: 80px;
+    flex-direction: column;
+    gap: 36px;
+  }
+
+  .band-head {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: flex-end;
+    justify-content: space-between;
+    gap: 16px 48px;
+  }
+
+  .text {
+    flex: 1 1 360px;
+    min-width: 0;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 18px;
+  }
+
+  .big {
+    font-size: clamp(34px, 4.4vw, 58px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .mid {
+    font-size: clamp(32px, 3.6vw, 48px);
+    line-height: 1;
+    letter-spacing: -0.03em;
+  }
+
+  .lead {
+    font-size: 19px;
+  }
+
+  .narrow {
+    max-width: 40ch;
+  }
+
+  .legend {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    font-weight: 700;
+  }
+
+  .legend li {
+    display: flex;
+    gap: 10px;
+    align-items: center;
+  }
+
+  .key {
+    width: 22px;
+    height: 6px;
+    border-radius: 3px;
+  }
+
+  .key--good { background: rgb(var(--good-fill)); }
+  .key--watch { background: rgb(var(--watch-fill)); }
+  .key--over { background: rgb(var(--over-fill)); }
+
+  /* Home phone */
+  .phone {
+    flex: 0 0 auto;
+    margin: 0 auto;
+    width: 300px;
+    max-width: 100%;
+    border-radius: 40px;
+    padding: 10px;
+    background: rgb(var(--bezel));
+    box-shadow: 0 24px 48px rgb(0 0 0 / 0.3);
+  }
+
+  .screen {
+    height: 560px;
+    border-radius: 30px;
+    overflow: hidden;
+    background: rgb(var(--bg));
+    color: rgb(var(--fg));
+    display: flex;
+    flex-direction: column;
+    font-size: 13px;
+    line-height: 1.4;
+  }
+
+  .screen-top {
+    background: rgb(var(--shell));
+    color: rgb(var(--on-shell));
+    padding: 26px 18px 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .small {
+    font-size: 12px;
+    font-weight: 700;
+  }
+
+  .tiny {
+    font-size: 11px;
+    font-weight: 700;
+  }
+
+  .screen-top .small {
+    opacity: 0.8;
+  }
+
+  .muted {
+    color: rgb(var(--fg-muted));
+  }
+
+  .say {
+    font-size: 22px;
+    line-height: 1.15;
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .screen-body {
+    padding: 14px;
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .mini-card {
+    background: rgb(var(--card));
+    border: 2px solid rgb(var(--border));
+    border-radius: 14px;
+    padding: 12px;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .week {
+    display: grid;
+    grid-template-columns: repeat(7, minmax(0, 1fr));
+    gap: 6px;
+    text-align: center;
+    font-size: 11px;
+    font-weight: 700;
+    color: rgb(var(--fg-muted));
+  }
+
+  .wday {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .wbar {
+    height: 48px;
+    border-radius: 6px;
+    transform-origin: bottom;
+    transition: transform 500ms var(--ease) calc(var(--i) * 90ms);
+  }
+
+  .wbar--good { background: rgb(var(--good-fill)); }
+  .wbar--watch { background: rgb(var(--watch-fill)); }
+  .wbar--over { background: rgb(var(--over-fill)); }
+  .wbar--muted { background: rgb(var(--muted)); }
+
+  .tiles {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+
+  .tile {
+    gap: 2px;
+  }
+
+  .tile-value {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  /* Todos and Vault */
+  .pair {
+    display: flex;
+    flex-wrap: wrap;
+  }
+
+  .pair > div {
+    flex: 1 1 440px;
+    min-width: 0;
+  }
+
+  .mock {
+    max-width: 380px;
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .sheet {
+    background: rgb(var(--card));
+    color: rgb(var(--fg));
+    border-radius: 18px;
+    display: flex;
+    flex-direction: column;
+    font-size: 15px;
+    box-shadow: 0 16px 32px rgb(0 0 0 / 0.22);
+  }
+
+  .line {
+    border-bottom: 2px solid rgb(var(--divider));
+  }
+
+  .todo {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .box {
+    flex: 0 0 auto;
+    width: 22px;
+    height: 22px;
+    border-radius: 6px;
+    border: 2px solid rgb(var(--border-input));
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background-color 250ms var(--ease) 300ms, border-color 250ms var(--ease) 300ms;
+  }
+
+  .box--done {
+    border-color: rgb(var(--accent));
+    background: rgb(var(--accent));
+    color: rgb(var(--on-accent));
+  }
+
+  .tick {
+    transition: transform 300ms var(--ease) 400ms;
+  }
+
+  .todo-name {
+    flex: 1 1 auto;
+    font-weight: 700;
+  }
+
+  .done {
+    color: rgb(var(--fg-muted));
+    text-decoration: line-through;
+  }
+
+  .today {
+    font-size: 12px;
+    padding-inline: 10px;
+  }
+
+  .reminder {
+    align-self: flex-start;
+    margin-left: 24px;
+    background: rgb(var(--shell));
+    color: rgb(var(--on-shell));
+    border-radius: 14px;
+    padding: 12px 16px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-weight: 700;
+    font-size: 15px;
+    box-shadow: 0 12px 24px rgb(0 0 0 / 0.25);
+    transition: transform 450ms var(--ease) 800ms, opacity 300ms var(--ease) 800ms;
+  }
+
+  .vault-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 14px 16px;
+    font-weight: 900;
+  }
+
+  .lock {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    font-size: 12px;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 999px;
+    background: rgb(var(--accent-tint));
+    color: rgb(var(--accent-strong));
+    transition: transform 400ms var(--ease) 200ms, opacity 300ms var(--ease) 200ms;
+  }
+
+  .entry {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .letter {
+    width: 34px;
+    height: 34px;
+    border-radius: 10px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-weight: 900;
+  }
+
+  .letter--records { background: rgb(var(--records-tint)); color: rgb(var(--records)); }
+  .letter--people { background: rgb(var(--people-tint)); color: rgb(var(--people)); }
+  .letter--home { background: rgb(var(--home-tint)); color: rgb(var(--home)); }
+
+  .entry-text {
+    flex: 1 1 auto;
+    display: flex;
+    flex-direction: column;
+  }
+
+  .entry-name {
+    font-weight: 700;
+  }
+
+  .dots {
+    letter-spacing: 0.12em;
+    color: rgb(var(--fg-muted));
+    transition: opacity 400ms var(--ease) calc(600ms + var(--i) * 150ms);
+  }
+
+  /* Money */
+  .sum {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 12px 20px;
+  }
+
+  .wallet {
+    flex: 1 1 200px;
+    background: rgb(var(--card));
+    color: rgb(var(--fg));
+    border-radius: 18px;
+    padding: 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .wallet-name {
+    font-weight: 700;
+    color: rgb(var(--fg-muted));
+  }
+
+  .wallet--total {
+    flex: 1.3 1 240px;
+    background: rgb(var(--shell-field));
+    color: rgb(var(--on-field));
+    border: 3px solid rgb(var(--on-field));
+  }
+
+  .wallet--total .wallet-name {
+    color: inherit;
+  }
+
+  .amount {
+    font-size: clamp(26px, 3vw, 36px);
+    font-weight: 900;
+    letter-spacing: -0.02em;
+  }
+
+  .amount--total {
+    font-size: clamp(32px, 4vw, 48px);
+  }
+
+  .op {
+    font-size: clamp(40px, 5vw, 64px);
+    font-weight: 900;
+    line-height: 1;
+  }
+
+  .bills {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    font-weight: 700;
+  }
+
+  .bill {
+    display: inline-flex;
+    align-items: center;
+    gap: 10px;
+    padding: 10px 16px;
+    border-radius: 999px;
+    background: rgb(var(--card));
+    color: rgb(var(--fg));
+  }
+
+  .bill-pill {
+    font-size: 13px;
+    padding-inline: 10px;
+  }
+
+  /* Vehicle */
+  .odo {
+    display: flex;
+    flex-direction: column;
+    gap: 4px;
+  }
+
+  .odo-label {
+    font-weight: 700;
+  }
+
+  .odo-value {
+    font-size: clamp(64px, 11vw, 150px);
+    line-height: 0.9;
+    font-weight: 900;
+    letter-spacing: -0.04em;
+  }
+
+  .services {
+    margin: 0;
+    padding: 0;
+    list-style: none;
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 24px;
+  }
+
+  .services li {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    padding-top: 16px;
+    border-top: 3px solid rgb(var(--on-field));
+  }
+
+  .service-head {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 8px;
+  }
+
+  .service-name {
+    font-size: 20px;
+    font-weight: 900;
+  }
+
+  .status {
+    font-size: 13px;
+    font-weight: 700;
+    padding: 2px 10px;
+    border-radius: 999px;
+  }
+
+  .status--watch { background: rgb(var(--gold)); color: rgb(var(--ink)); }
+  .status--over { background: rgb(var(--on-field)); color: rgb(180 16 90); }
+  .status--plain { padding-inline: 0; }
+
+  .track {
+    height: 10px;
+    border-radius: 999px;
+    background: rgb(var(--on-field) / 0.3);
+    overflow: hidden;
+  }
+
+  .fill {
+    height: 100%;
+    background: rgb(var(--on-field));
+    transform-origin: left;
+    transition: transform 900ms var(--ease) 300ms;
+  }
+
+  .fill--watch {
+    background: rgb(var(--gold));
+  }
+
+  /* Before state. The <head> script adds .motion only when motion can play. */
+  :global(.motion) [data-reveal]:not(.is-in) .wbar {
+    transform: scaleY(0);
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .box--done {
+    background: transparent;
+    border-color: rgb(var(--border-input));
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .tick {
+    transform: scale(0);
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .reminder {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .lock {
+    opacity: 0;
+    transform: translateY(-8px);
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .dots {
+    opacity: 0;
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .fill {
+    transform: scaleX(0);
+  }
+</style>
