@@ -1,19 +1,22 @@
 ---
 import { groups } from '../data/site';
+
+// A running index across every group, so the weave plays as one wave down the page.
+const starts = groups.map((_, gi) => groups.slice(0, gi).reduce((n, g) => n + g.modules.length, 0));
 ---
 
-<section class="wrap mosaic">
+<section class="wrap mosaic" data-in>
   <div class="head">
-    <h2>Everything else, woven in.</h2>
-    <p>Grouped the way the app's More tab groups them. A gold corner means the module needs a free key that you add yourself.</p>
+    <h2 class="rise">Everything else, woven in.</h2>
+    <p>A gold corner means it needs a free key.</p>
   </div>
   <div class="groups">
-    {groups.map((g) => (
+    {groups.map((g, gi) => (
       <div class="group">
         <h3>{g.title}</h3>
         <ul>
           {g.modules.map((m, i) => (
-            <li class:list={['tile', `field-${g.field}`, i % 2 === 0 ? 'tile--a' : 'tile--b']}>
+            <li class:list={['tile', `field-${g.field}`, i % 2 === 0 ? 'tile--a' : 'tile--b']} style={`--i:${starts[gi] + i}`}>
               {m.key && <span class="corner" role="img" aria-label="Needs a free key"></span>}
               <span class="name">{m.name}</span>
             </li>
@@ -99,6 +102,33 @@ import { groups } from '../data/site';
 
   .tile--b {
     border-radius: 4px 18px 4px 18px;
+  }
+
+  /* Tiles weave in like strips of banig: warp from the left, weft from the right. */
+  .tile {
+    transition:
+      clip-path 800ms var(--ease) calc(200ms + min(var(--i) * 45ms, 900ms)),
+      transform 800ms var(--ease) calc(200ms + min(var(--i) * 45ms, 900ms));
+  }
+
+  .tile .name,
+  .tile .corner {
+    transition: opacity 500ms var(--ease) calc(500ms + min(var(--i) * 45ms, 900ms));
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .tile--a {
+    clip-path: inset(0 100% 0 0);
+    transform: translateX(-12px);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .tile--b {
+    clip-path: inset(0 0 0 100%);
+    transform: translateX(12px);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .tile .name,
+  :global(.motion) [data-in]:not(.is-in) .tile .corner {
+    opacity: 0;
   }
 
   .corner {

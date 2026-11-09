@@ -1,0 +1,127 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="vault" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+  <div class="bg weave field-people"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+  <h1 class="hook" id="hook">Passwords that <em>never leave</em> your phone.</h1>
+
+  <div class="stage" style="top: 650px">
+    <div class="phone">
+      <div class="screen">
+        <!-- Locked: the PIN pad -->
+        <div class="layer" id="locked">
+          <div class="top">
+            <span class="small">Vault</span>
+            <span class="title">Enter your PIN</span>
+            <span class="lock-badge"><span data-icon="lock"></span>Locked</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="pinpad">
+            <div class="pin-dots" id="dots"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+            <div class="keys">
+              <span class="key">1</span><span class="key">2</span><span class="key">3</span>
+              <span class="key">4</span><span class="key">5</span><span class="key">6</span>
+              <span class="key">7</span><span class="key">8</span><span class="key">9</span>
+              <span class="key key--blank"></span><span class="key">0</span><span class="key key--blank"></span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Open: the entries -->
+        <div class="layer" id="open" style="opacity:0">
+          <div class="top">
+            <span class="small">Vault</span>
+            <span class="title">4 passwords</span>
+            <span class="lock-badge" id="badge"><span data-icon="lock"></span><span class="swap"><span id="b-open">Open · locks in 30 s</span><span id="b-locked" style="opacity:0">Locked</span></span></span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card card--flush">
+              <div class="row" id="gcash"><span class="hl"></span><span class="letter letter--records">G</span><span class="entry-text"><span>GCash</span><span class="dots">••••••••</span></span></div>
+              <div class="row"><span class="letter letter--people">M</span><span class="entry-text"><span>Mail</span><span class="dots">••••••••••</span></span></div>
+              <div class="row"><span class="letter letter--home">W</span><span class="entry-text"><span>Home Wi-Fi</span><span class="dots">••••••••••••</span></span></div>
+              <div class="row"><span class="letter letter--daily">S</span><span class="entry-text"><span>Shopee</span><span class="dots">•••••••••</span></span></div>
+            </div>
+            <div class="card">
+              <span class="label">How it's kept</span>
+              <span style="font-weight:700">Encrypted on this phone before it syncs. The server only sees scrambled text.</span>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span>Todos</span><span>Money</span><span>Vehicle</span><span class="on">More</span></div>
+        </div>
+        <div class="toast" id="toast"><span data-icon="copy"></span>GCash password copied. Clears in 30 s.</div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="left: 24px; top: 1700px">Only your PIN opens it.</div>
+  <div class="sticker sticker--gold" id="s2" style="right: 26px; top: 800px">Copy. Paste. Gone.</div>
+  <div class="sticker sticker--pink" id="s3" style="left: 40px; top: 900px">Locks itself.</div>
+
+  <div class="end weave field-people" data-endline="Your passwords. <em>Your phone.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('vault');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['vault'] = A.tl;
+  const { tl, $$ } = A;
+  A.drift(12.5);
+  A.brandIn(0.1);
+  A.hookIn('#hook', 0.25);
+  const landed = A.phoneIn(0.8, 1.85);
+  A.float(landed, 8.9);
+
+  // Four taps on the pad, four dots fill.
+  const keys = $$('.key');
+  const fills = $$('#dots b');
+  const pin = [1, 6, 7, 10]; // keys 2, 7, 8, 0
+  // Layout offsets (relative to the screen layer) ignore the stage's scale and tilt.
+  const pos = (i) => ({ x: keys[i].offsetLeft + keys[i].offsetWidth / 2, y: keys[i].offsetTop + keys[i].offsetHeight / 2 });
+  pin.forEach((k, i) => {
+    const at = 2.0 + i * 0.42;
+    const p = pos(k);
+    A.tap(p.x, p.y, at);
+    tl.fromTo(keys[k], { backgroundColor: 'rgb(255 251 240)' }, { backgroundColor: 'rgb(228 225 242)', duration: 0.1, yoyo: true, repeat: 1 }, at + 0.05);
+    tl.to(fills[i], { scale: 1, duration: 0.2, ease: 'back.out(2.4)' }, at + 0.1);
+  });
+  A.sticker('#s1', 2.2, 4.0, -4);
+  tl.to(fills, { backgroundColor: 'rgb(11 122 85)', duration: 0.2 }, 3.85);
+
+  // It opens.
+  tl.to('#locked', { opacity: 0, scale: 0.94, duration: 0.35, ease: 'power2.in' }, 4.1);
+  tl.fromTo('#open', { opacity: 0, scale: 1.06 }, { opacity: 1, scale: 1, duration: 0.45, ease: 'power3.out' }, 4.3);
+
+  // Copy GCash.
+  tl.to('#gcash .hl', { opacity: 1, duration: 0.2 }, 5.1);
+  A.tap(120, 180, 5.1);
+  tl.fromTo('#gcash .dots', { letterSpacing: '0.12em' }, { letterSpacing: '0.3em', color: 'rgb(35 32 92)', duration: 0.3, yoyo: true, repeat: 1 }, 5.25);
+  tl.from('#toast', { y: 120, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, 5.4);
+  tl.to('#gcash .hl', { opacity: 0, duration: 0.4 }, 6.0);
+  A.sticker('#s2', 5.5, 7.2, 4);
+
+  // And locks itself again.
+  tl.to('#toast', { y: 120, opacity: 0, duration: 0.35, ease: 'power2.in' }, 7.0);
+  A.swap('#b-open', '#b-locked', 7.2);
+  tl.to('#open', { opacity: 0, duration: 0.35 }, 7.5);
+  tl.set(fills, { scale: 0, backgroundColor: 'rgb(35 32 92)' }, 7.5);
+  tl.to('#locked', { opacity: 1, scale: 1, duration: 0.4, ease: 'power3.out' }, 7.6);
+  A.sticker('#s3', 7.4, 8.8, -3);
+
+  A.wipe(9.0, (covered) => {
+    tl.set(['.stage', '.sticker', '.hook', '.brandline'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

@@ -239,11 +239,6 @@ button {
   font-weight: 900;
   font-size: 17px;
   text-decoration: none;
-  transition: transform 150ms var(--ease);
-}
-
-.btn:active {
-  transform: translateY(1px);
 }
 
 .btn--cream {
@@ -267,11 +262,116 @@ button {
   border: 2px solid rgb(var(--on-field) / 0.55);
   background: transparent;
   color: rgb(var(--on-field));
-  transition: background-color 150ms, color 150ms;
 }
 
 .chip[aria-pressed='true'] {
   border-color: rgb(var(--on-field));
   background: rgb(var(--on-field));
   color: rgb(var(--shell-field));
+}
+
+/* ------------------------------------------------------------------
+   Motion layer
+   Everything is visible by default. The <head> script adds .motion only
+   when motion can play, and [data-in] sections gain .is-in once they
+   scroll into view. Without JS or with reduce motion on, the page
+   simply shows its finished state.
+   ------------------------------------------------------------------ */
+
+:root {
+  --ease-in-out: cubic-bezier(0.65, 0, 0.35, 1);
+  interpolate-size: allow-keywords;
+}
+
+::selection {
+  background: rgb(var(--gold));
+  color: rgb(var(--ink));
+}
+
+/* Headings rise out of their own line box. */
+.rise {
+  transition:
+    clip-path 800ms var(--ease) var(--d, 0ms),
+    transform 800ms var(--ease) var(--d, 0ms);
+}
+
+.motion [data-in]:not(.is-in) .rise {
+  clip-path: inset(-0.2em -0.2em 100% -0.2em);
+  transform: translateY(0.45em);
+}
+
+/* A thread pulled through: rows wipe in left to right, one after another. */
+.thread {
+  transition: clip-path 900ms var(--ease) calc(150ms + min(var(--i, 0) * 110ms, 600ms));
+}
+
+.motion [data-in]:not(.is-in) .thread {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* The status strip stitches across when its section arrives. */
+.strip {
+  transition: clip-path 1400ms var(--ease-in-out) 100ms;
+}
+
+.motion [data-in]:not(.is-in) > .strip {
+  clip-path: inset(0 100% 0 0);
+}
+
+/* Buttons: lift on hover, settle on press, arrows lean forward. */
+.btn {
+  transition:
+    transform 200ms var(--ease),
+    box-shadow 200ms var(--ease),
+    background-color 200ms,
+    border-color 200ms;
+}
+
+.btn svg {
+  transition: transform 250ms var(--ease);
+}
+
+@media (hover: hover) {
+  .btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 10px 22px rgb(0 0 0 / 0.22);
+  }
+
+  .btn:hover svg {
+    transform: translateX(4px);
+  }
+
+  .btn--ghost:hover {
+    border-color: rgb(var(--on-field));
+  }
+}
+
+.btn:active {
+  transform: translateY(1px);
+  box-shadow: 0 2px 6px rgb(0 0 0 / 0.18);
+  transition-duration: 80ms;
+}
+
+.chip {
+  transition:
+    background-color 200ms,
+    color 200ms,
+    border-color 200ms,
+    transform 150ms var(--ease);
+}
+
+.chip:active {
+  transform: scale(0.96);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .btn:hover,
+  .btn:active,
+  .chip:active {
+    transform: none;
+  }
+
+  .btn:hover svg {
+    transform: none;
+  }
 }

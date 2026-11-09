@@ -9,17 +9,17 @@ const steps = [
 ];
 ---
 
-<section id="copy" class="weave weave--deep field-shell on-dark">
+<section id="copy" class="weave weave--deep field-shell on-dark" data-in>
   <div class="strip"></div>
   <div class="wrap body">
     <div class="head">
-      <h2>Make your own copy.</h2>
-      <p>Four steps, all on free plans. CONTRIBUTING.md on GitHub walks you through each one.</p>
+      <h2 class="rise">Make your own copy.</h2>
+      <p>Four steps, all on free plans.</p>
     </div>
     <div class="cols">
       <ol>
         {steps.map((s, i) => (
-          <li>
+          <li style={`--i:${i}`}>
             <span class:list={['num', s.field ? `num--field field-${s.field}` : 'num--cream']}>{i + 1}</span>
             <span class="step">
               <strong>{s.title}</strong>
@@ -31,16 +31,15 @@ const steps = [
       <div class="side">
         <div class="term">
           <div class="lights" aria-hidden="true"><span></span><span></span><span></span></div>
-          <div class="wrapline"><span class="prompt">$</span> git clone {REPO}.git</div>
-          <div><span class="prompt">$</span> cd my-app &amp;&amp; npm install</div>
-          <div><span class="prompt">$</span> cp .env.example .env</div>
-          <div class="comment"># then fill in the three values</div>
+          <div class="tline wrapline" style="--t:0"><span class="prompt">$</span> git clone {REPO}.git</div>
+          <div class="tline" style="--t:1"><span class="prompt">$</span> cd my-app &amp;&amp; npm install</div>
+          <div class="tline" style="--t:2"><span class="prompt">$</span> cp .env.example .env</div>
+          <div class="tline comment" style="--t:3"># then fill in the three values<span class="cursor" aria-hidden="true"></span></div>
         </div>
         <a class="btn btn--cream cta" href={CONTRIBUTING}>
           Make your own copy
           <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14M13 6l6 6-6 6"></path></svg>
         </a>
-        <p class="fine">Android first. The web build covers most screens. There is no iPhone app yet.</p>
       </div>
     </div>
   </div>
@@ -174,6 +173,53 @@ const steps = [
     background: rgb(var(--good-fill));
   }
 
+  /* Steps: each number lands, then its text slides in beside it. */
+  ol li .num {
+    transition: transform 600ms var(--ease) calc(200ms + var(--i) * 140ms), opacity 300ms var(--ease) calc(200ms + var(--i) * 140ms);
+  }
+
+  ol li .step {
+    transition: transform 700ms var(--ease) calc(280ms + var(--i) * 140ms), opacity 500ms var(--ease) calc(280ms + var(--i) * 140ms);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) ol li .num {
+    opacity: 0;
+    transform: scale(0.4) rotate(-20deg);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) ol li .step {
+    opacity: 0;
+    transform: translateX(-16px);
+  }
+
+  /* Terminal: each command writes itself out, one line after the last. */
+  .tline {
+    transition: clip-path 650ms var(--ease-in-out) calc(500ms + var(--t) * 600ms);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .tline {
+    clip-path: inset(0 100% 0 0);
+  }
+
+  .cursor {
+    display: inline-block;
+    width: 0.55em;
+    height: 1.1em;
+    margin-left: 4px;
+    vertical-align: -0.2em;
+    background: rgb(var(--gold));
+  }
+
+  @keyframes blink {
+    50% {
+      opacity: 0;
+    }
+  }
+
+  :global(.motion) .is-in .cursor {
+    animation: blink 1s steps(1) 2.6s 6;
+  }
+
   .wrapline {
     overflow-wrap: anywhere;
   }
@@ -193,8 +239,4 @@ const steps = [
     font-size: 19px;
   }
 
-  .fine {
-    font-size: 15px;
-    opacity: 0.85;
-  }
 </style>

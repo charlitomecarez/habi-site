@@ -1,0 +1,106 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="vehicle" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+  <div class="bg weave field-home"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+  <h1 class="hook" id="hook">Your ride<br>knows when it<br><em>needs oil.</em></h1>
+
+  <div class="stage" style="top: 650px">
+    <div class="phone">
+      <div class="screen">
+        <div class="layer">
+          <div class="top">
+            <span class="small">Odometer</span>
+            <span class="odo" id="odo">12,480 km</span>
+            <span class="small">Last trip: this morning</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="btn-add" id="add">+ Enter today's km</div>
+            <div class="card card--flush">
+              <div class="svc" id="oil">
+                <div class="svc-head"><span class="name">Oil change</span>
+                  <span class="swap"><span class="pill pill--watch" id="oil-soon">Due soon</span><span class="pill pill--over" id="oil-now" style="opacity:0">Due now</span><span class="pill pill--good" id="oil-ok" style="opacity:0">On track</span></span>
+                </div>
+                <div class="track"><div class="bar watch" id="oil-bar" style="transform: scaleX(0.88)"></div></div>
+                <span class="note swap"><span id="oil-n1">At 12,600 km. 120 km left.</span><span id="oil-n2" style="opacity:0">At 12,600 km. Due now.</span><span id="oil-n3" style="opacity:0">Logged. Next at 15,612 km.</span></span>
+              </div>
+              <div class="svc">
+                <div class="svc-head"><span class="name">Tire check</span><span class="pill pill--plain">On track</span></div>
+                <div class="track"><div class="bar good" id="tire-bar" style="transform: scaleX(0.45)"></div></div>
+                <span class="note">At 18,000 km.</span>
+              </div>
+              <div class="svc">
+                <div class="svc-head"><span class="name">Brake check</span><span class="pill pill--over">Overdue</span></div>
+                <div class="track"><div class="bar over" style="transform: scaleX(1)"></div></div>
+                <span class="note">Was due at 12,000 km.</span>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span>Todos</span><span>Money</span><span class="on">Vehicle</span><span>More</span></div>
+        </div>
+        <div class="toast" id="toast"><span data-icon="check"></span>Oil change logged at 12,612 km</div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="left: 24px; top: 1180px">Enter the km. That's it.</div>
+  <div class="sticker sticker--pink" id="s2" style="right: 26px; top: 820px">It counts down.</div>
+  <div class="sticker sticker--gold" id="s3" style="left: 30px; top: 1640px">Car. Motorbike. Scooter.</div>
+
+  <div class="end weave field-home" data-endline="Your ride, <em>looked after.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('vehicle');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['vehicle'] = A.tl;
+  const { tl } = A;
+  A.drift(12.5);
+  A.brandIn(0.1);
+  A.hookIn('#hook', 0.25);
+  const landed = A.phoneIn(0.8, 1.85);
+  A.float(landed, 8.9);
+  tl.from('.bar', { scaleX: 0, duration: 0.8, ease: 'power3.out', stagger: 0.12 }, 1.6);
+
+  // After a trip: enter the km.
+  A.tapOn('#add', 2.4);
+  tl.to('#add', { scale: 0.96, duration: 0.1, yoyo: true, repeat: 1 }, 2.5);
+  A.count('#odo', 12480, 12612, 2.7, 1.8, A.fmt.km);
+  tl.to('#oil-bar', { scaleX: 1, duration: 1.6, ease: 'power2.inOut' }, 2.8);
+  tl.to('#tire-bar', { scaleX: 0.47, duration: 1.6, ease: 'power2.inOut' }, 2.8);
+  A.sticker('#s1', 2.6, 4.2, -4);
+
+  // The oil change comes due.
+  A.swap('#oil-soon', '#oil-now', 4.3);
+  A.swap('#oil-n1', '#oil-n2', 4.3);
+  tl.set('#oil-bar', { className: 'bar over' }, 4.35);
+  A.pop('#oil-now', 4.6);
+  A.sticker('#s2', 4.5, 6.2, 4);
+
+  // Logged.
+  A.tapOn('#oil', 5.9);
+  tl.from('#toast', { y: 120, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, 6.2);
+  tl.to('#oil-bar', { scaleX: 0.02, duration: 0.9, ease: 'power3.inOut' }, 6.3);
+  tl.set('#oil-bar', { className: 'bar good' }, 6.6);
+  A.swap('#oil-now', '#oil-ok', 6.5);
+  A.swap('#oil-n2', '#oil-n3', 6.5);
+  A.sticker('#s3', 6.9, 8.7, -3);
+
+  A.wipe(9.0, (covered) => {
+    tl.set(['.stage', '.sticker', '.hook', '.brandline'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

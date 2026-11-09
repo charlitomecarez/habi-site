@@ -1,0 +1,305 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="master" data-start="0" data-duration="26" data-width="1080" data-height="1920">
+  <div class="bg weave field-shell" id="bg-shell"></div>
+  <div class="bg weave field-daily" id="bg-daily" style="opacity:0"></div>
+  <div class="bg weave field-records" id="bg-records" style="opacity:0"></div>
+  <div class="bg weave field-home" id="bg-home" style="opacity:0"></div>
+  <div class="bg weave field-people" id="bg-people" style="opacity:0"></div>
+  <div class="bg weave field-gold" id="bg-gold" style="opacity:0"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+
+  <div class="heads">
+    <h1 class="hook" id="h0">One private<br>app for <em>your<br>whole day.</em></h1>
+    <h1 class="hook" id="h1">Home <em>speaks first.</em></h1>
+    <h1 class="hook" id="h2">Todos that <em>remind you.</em></h1>
+    <h1 class="hook" id="h3">Money, <em>in pesos.</em></h1>
+    <h1 class="hook" id="h4">Your ride knows its <em>next service.</em></h1>
+    <h1 class="hook" id="h5">A vault that <em>stays locked.</em></h1>
+  </div>
+
+  <div class="stage" style="top: 640px">
+    <div class="phone">
+      <div class="screen">
+
+        <!-- Home -->
+        <div class="layer" id="L-home">
+          <div class="top">
+            <span class="small">Mon, Nov 9 · Good morning</span>
+            <span class="say"><span id="say"></span></span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card">
+              <span class="label">This week</span>
+              <div class="week">
+                <div class="wday"><span class="wbar good"></span>M</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar watch"></span>W</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar over"></span>F</div>
+                <div class="wday"><span class="wbar good"></span>S</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+              </div>
+            </div>
+            <div class="tiles">
+              <div class="card tile"><span class="tiny muted">Todos</span><span class="tile-value">4 left</span></div>
+              <div class="card tile"><span class="tiny muted">Spent today</span><span class="tile-value">₱312</span></div>
+              <div class="card tile"><span class="tiny muted">Weather</span><span class="tile-value">31°</span></div>
+              <div class="card tile"><span class="tiny muted">Steps</span><span class="tile-value" id="steps">6,204</span></div>
+            </div>
+            <div class="card card--flush">
+              <span class="label" style="padding: 10px 12px 0">Needs you</span>
+              <div class="row"><span class="name">Send rent to Ate</span><span class="pill pill--watch">Today</span></div>
+              <div class="row"><span class="name">Oil change</span><span class="pill pill--watch">120 km</span></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on">Home</span><span>Todos</span><span>Money</span><span>Vehicle</span><span>More</span></div>
+        </div>
+
+        <!-- Todos -->
+        <div class="layer" id="L-todos">
+          <div class="top">
+            <span class="small">Mon, Nov 9</span>
+            <span class="title">Todos</span>
+            <span class="small">3 left today</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card card--flush">
+              <div class="row"><span class="box"><span class="fillbox"></span><span data-icon="check"></span></span><span class="name muted">Renew OR/CR<span class="strike"></span></span></div>
+              <div class="row" id="rent"><span class="hl"></span><span class="box" id="rent-box"><span class="fillbox" style="transform:scale(0)"></span><span data-icon="check" style="opacity:0"></span></span><span class="name" id="rent-name">Send rent to Ate<span class="strike" style="transform:scaleX(0)"></span></span><span class="pill pill--watch" id="rent-pill">Today</span></div>
+              <div class="row"><span class="box"></span><span class="name">Buy rice, 5 kg</span></div>
+              <div class="row"><span class="box"></span><span class="name">Pay Meralco</span><span class="pill pill--plain">Fri</span></div>
+              <div class="row"><span class="box"></span><span class="name">Book the car wash</span></div>
+            </div>
+            <div class="card">
+              <span class="label">Done this week</span>
+              <div class="week">
+                <div class="wday"><span class="wbar good"></span>M</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar watch"></span>W</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar rest"></span>F</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span class="on">Todos</span><span>Money</span><span>Vehicle</span><span>More</span></div>
+          <div class="notif" id="notif">
+            <span class="notif-icon" data-icon="bell"></span>
+            <span class="notif-text"><span class="muted">Habi · now</span><strong>Send rent to Ate</strong><span>Due today, 5:00 PM</span></span>
+          </div>
+        </div>
+
+        <!-- Money -->
+        <div class="layer" id="L-money">
+          <div class="top">
+            <span class="small">Mon, Nov 9</span>
+            <span class="title">Money</span>
+            <span class="small">All wallets, in pesos</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card total-card"><span class="label">Total</span><span class="big-num" id="total">₱18,240.50</span></div>
+            <div class="card card--flush">
+              <div class="row"><span class="letter letter--records">G</span><span class="name">GCash</span><span class="amt" id="gcash">₱3,410.20</span></div>
+              <div class="row"><span class="letter letter--daily">M</span><span class="name">MariBank</span><span class="amt">₱14,830.30</span></div>
+            </div>
+            <div class="card card--flush">
+              <span class="label" style="padding: 10px 12px 0">Bills</span>
+              <div class="row"><span class="name">Meralco<span class="sub">₱2,315.40</span></span><span class="pill pill--good">Paid</span></div>
+              <div class="row" id="globe"><span class="hl"></span><span class="name">Globe postpaid<span class="sub">₱1,299.00</span></span><span class="swap"><span class="pill pill--watch" id="g-due">Due soon</span><span class="pill pill--good" id="g-paid" style="opacity:0">Paid</span></span></div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span>Todos</span><span class="on">Money</span><span>Vehicle</span><span>More</span></div>
+        </div>
+
+        <!-- Vehicle -->
+        <div class="layer" id="L-vehicle">
+          <div class="top">
+            <span class="small">Odometer</span>
+            <span class="odo" id="odo">12,480 km</span>
+            <span class="small">Car, motorbike or scooter</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="btn-add">+ Enter today's km</div>
+            <div class="card card--flush">
+              <div class="svc">
+                <div class="svc-head"><span class="name">Oil change</span><span class="swap"><span class="pill pill--watch" id="oil-soon">Due soon</span><span class="pill pill--over" id="oil-now" style="opacity:0">Due now</span></span></div>
+                <div class="track"><div class="bar watch" id="oil-bar" style="transform: scaleX(0.88)"></div></div>
+                <span class="note">At 12,600 km.</span>
+              </div>
+              <div class="svc">
+                <div class="svc-head"><span class="name">Tire check</span><span class="pill pill--plain">On track</span></div>
+                <div class="track"><div class="bar good" style="transform: scaleX(0.45)"></div></div>
+                <span class="note">At 18,000 km.</span>
+              </div>
+              <div class="svc">
+                <div class="svc-head"><span class="name">Brake check</span><span class="pill pill--over">Overdue</span></div>
+                <div class="track"><div class="bar over" style="transform: scaleX(1)"></div></div>
+                <span class="note">Was due at 12,000 km.</span>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span>Todos</span><span>Money</span><span class="on">Vehicle</span><span>More</span></div>
+        </div>
+
+        <!-- Vault -->
+        <div class="layer" id="L-vault">
+          <div class="top">
+            <span class="small">Vault</span>
+            <span class="title">Enter your PIN</span>
+            <span class="lock-badge"><span data-icon="lock"></span><span class="swap"><span id="v-locked">Locked</span><span id="v-open" style="opacity:0">Open</span></span></span>
+          </div>
+          <div class="stitch"></div>
+          <div class="pinpad">
+            <div class="pin-dots" id="dots"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></div>
+            <div class="keys">
+              <span class="key">1</span><span class="key">2</span><span class="key">3</span>
+              <span class="key">4</span><span class="key">5</span><span class="key">6</span>
+              <span class="key">7</span><span class="key">8</span><span class="key">9</span>
+              <span class="key key--blank"></span><span class="key">0</span><span class="key key--blank"></span>
+            </div>
+          </div>
+        </div>
+
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="right: 26px; top: 1500px">Reads every module.</div>
+  <div class="sticker sticker--green" id="s2" style="left: 26px; top: 1260px">Check it off.</div>
+  <div class="sticker sticker--green" id="s3" style="right: 26px; top: 1560px">Bills say Paid.</div>
+  <div class="sticker sticker--pink" id="s4" style="left: 26px; top: 1180px">It counts down.</div>
+  <div class="sticker sticker--cream" id="s5" style="right: 26px; top: 1640px">Only your PIN opens it.</div>
+
+  <div class="zero" id="zero">
+    <span class="zero-num">₱0</span>
+    <span class="zero-line">a month to run.</span>
+    <span class="zero-sub">Free plans cover one person. Open source, MIT.</span>
+  </div>
+
+  <div class="end weave field-shell" data-endline="One private app. <em>Your whole day.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('master');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['master'] = A.tl;
+  const { tl, $$ } = A;
+  const D = 26;
+  A.drift(D);
+  A.brandIn(0.1);
+
+  // App navigation: the next screen slides in from the right.
+  const layers = ['#L-home', '#L-todos', '#L-money', '#L-vehicle', '#L-vault'];
+  tl.set(layers.slice(1), { xPercent: 100 }, 0);
+  function go(from, to, at) {
+    tl.to(from, { xPercent: -35, opacity: 0.4, duration: 0.55, ease: 'power3.inOut' }, at);
+    tl.fromTo(to, { xPercent: 100 }, { xPercent: 0, duration: 0.55, ease: 'power3.inOut', immediateRender: false }, at);
+  }
+  function field(from, to, at) {
+    tl.to(to, { opacity: 1, duration: 0.6, ease: 'power2.inOut' }, at);
+    tl.set(from, { opacity: 0 }, at + 0.6);
+  }
+  function head(prev, next, at) {
+    A.hookOut(prev, at);
+    A.hookIn(next, at + 0.35);
+  }
+
+  // Intro
+  A.hookIn('#h0', 0.25);
+  ['#h1', '#h2', '#h3', '#h4', '#h5'].forEach((h) => A.hookHide(h));
+  const landed = A.phoneIn(0.9, 1.85);
+  A.float(landed, 18.2);
+
+  // 1. Home
+  tl.from('#L-home .wbar', { scaleY: 0, duration: 0.5, ease: 'back.out(1.6)', stagger: 0.08 }, 1.7);
+  A.type('#say', 'Three things need you. The rest can wait.', 2.0, 0.03);
+  head('#h0', '#h1', 3.6);
+  A.count('#steps', 6204, 6900, 3.6, 1.0, A.fmt.int);
+  A.sticker('#s1', 3.4, 5.0, 4);
+
+  // 2. Todos
+  go('#L-home', '#L-todos', 5.3);
+  field('#bg-shell', '#bg-daily', 5.2);
+  head('#h1', '#h2', 5.2);
+  tl.from('#notif', { yPercent: -160, duration: 0.55, ease: 'back.out(1.4)' }, 6.0);
+  tl.to('#notif', { yPercent: -160, duration: 0.35, ease: 'power3.in' }, 7.0);
+  tl.to('#rent .hl', { opacity: 1, duration: 0.2 }, 7.2);
+  A.tapOn('#rent-box', 7.25);
+  tl.to('#rent-box .fillbox', { scale: 1, duration: 0.25, ease: 'back.out(2)' }, 7.4);
+  tl.to('#rent-box [data-icon]', { opacity: 1, duration: 0.15 }, 7.5);
+  tl.to('#rent-name .strike', { scaleX: 1, duration: 0.35, ease: 'power2.out' }, 7.55);
+  tl.to('#rent-pill', { scale: 0.5, opacity: 0, duration: 0.25 }, 7.65);
+  tl.to('#rent .hl', { opacity: 0, duration: 0.4 }, 8.0);
+  A.sticker('#s2', 7.5, 8.6, -4);
+
+  // 3. Money
+  go('#L-todos', '#L-money', 8.7);
+  field('#bg-daily', '#bg-records', 8.6);
+  head('#h2', '#h3', 8.6);
+  A.count('#total', 0, 18240.5, 9.2, 1.2, A.fmt.peso);
+  A.tapOn('#g-due', 10.5);
+  A.swap('#g-due', '#g-paid', 10.7);
+  A.count('#gcash', 3410.2, 2111.2, 10.9, 0.9, A.fmt.peso);
+  A.count('#total', 18240.5, 16941.5, 10.9, 1.0, A.fmt.peso);
+  A.sticker('#s3', 10.9, 12.0, 4);
+
+  // 4. Vehicle
+  go('#L-money', '#L-vehicle', 12.1);
+  field('#bg-records', '#bg-home', 12.0);
+  head('#h3', '#h4', 12.0);
+  A.count('#odo', 12480, 12612, 12.8, 1.5, A.fmt.km);
+  tl.to('#oil-bar', { scaleX: 1, duration: 1.4, ease: 'power2.inOut' }, 12.9);
+  A.swap('#oil-soon', '#oil-now', 14.2);
+  tl.set('#oil-bar', { className: 'bar over' }, 14.25);
+  A.pop('#oil-now', 14.45);
+  A.sticker('#s4', 13.6, 15.2, -3);
+
+  // 5. Vault
+  go('#L-vehicle', '#L-vault', 15.4);
+  field('#bg-home', '#bg-people', 15.3);
+  head('#h4', '#h5', 15.3);
+  const keys = $$('#L-vault .key');
+  const fills = $$('#dots b');
+  [1, 6, 7, 10].forEach((k, i) => {
+    const at = 16.1 + i * 0.32;
+    A.tap(keys[k].offsetLeft + keys[k].offsetWidth / 2, keys[k].offsetTop + keys[k].offsetHeight / 2, at);
+    tl.to(fills[i], { scale: 1, duration: 0.2, ease: 'back.out(2.4)' }, at + 0.1);
+  });
+  tl.to(fills, { backgroundColor: 'rgb(11 122 85)', duration: 0.2 }, 17.4);
+  A.swap('#v-locked', '#v-open', 17.5);
+  A.sticker('#s5', 16.0, 17.9, 3);
+
+  // ₱0
+  A.phoneOut(18.2);
+  A.hookOut('#h5', 18.1);
+  tl.to('.brandline', { color: 'rgb(30 27 58)', duration: 0.4 }, 18.4);
+  field('#bg-people', '#bg-gold', 18.3);
+  tl.set('#zero', { opacity: 1 }, 18.6);
+  tl.from('#zero .zero-num', { scale: 1.6, opacity: 0, rotation: -6, duration: 0.6, ease: 'expo.out' }, 18.6);
+  tl.from('#zero .zero-line', { y: 60, opacity: 0, duration: 0.5, ease: 'power3.out' }, 19.0);
+  tl.from('#zero .zero-sub', { y: 40, opacity: 0, duration: 0.5, ease: 'power3.out' }, 19.3);
+  tl.to('#zero .zero-num', { scale: 1.04, duration: 1.8, ease: 'sine.inOut' }, 19.3);
+
+  A.wipe(21.4, (covered) => {
+    tl.set(['.stage', '.sticker', '.heads', '.brandline', '#zero'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

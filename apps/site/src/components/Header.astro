@@ -7,7 +7,7 @@ import { REPO } from '../data/site';
   <div class="wrap row">
     <a class="brand" href="#top">
       <Logo />
-      my-app
+      Habi
     </a>
     <nav aria-label="Sections">
       <a href="#tour">Tour</a>
@@ -64,12 +64,31 @@ import { REPO } from '../data/site';
     padding: 10px 0;
   }
 
-  nav a:not(.gh):hover {
-    text-decoration: underline;
-    text-underline-offset: 4px;
+  nav a:not(.gh) {
+    position: relative;
+  }
+
+  /* The underline draws in from the left and leaves to the right. */
+  nav a:not(.gh)::after {
+    content: '';
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 4px;
+    height: 2px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 300ms var(--ease);
+  }
+
+  nav a:not(.gh):hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
   }
 
   .gh {
+    transition: border-color 200ms, background-color 200ms;
     display: inline-flex;
     align-items: center;
     gap: 8px;
@@ -80,5 +99,6 @@ import { REPO } from '../data/site';
 
   .gh:hover {
     border-color: rgb(var(--on-field));
+    background-color: rgb(var(--on-field) / 0.1);
   }
 </style>

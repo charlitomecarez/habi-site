@@ -1,25 +1,25 @@
 ---
 const points = [
-  ['The vault is encrypted on the phone.', 'Supabase only stores scrambled text. Your PIN never leaves the phone.'],
-  ['Every table has row-level security.', 'Each account sees only its own rows.'],
-  ['Steps, sleep and screen time stay on the phone.', 'They never go to a server.'],
+  ['The server only sees scrambled text.', 'Your vault is encrypted on the phone.'],
+  ['Each account sees only its own rows.', 'Every table has row-level security.'],
+  ['Steps, sleep and screen time never leave the phone.', ''],
 ];
 ---
 
-<section id="private" class="weave weave--deep field-shell on-dark">
+<section id="private" class="weave weave--deep field-shell on-dark" data-in>
   <div class="wrap row">
     <div class="intro">
       <div class="padlock" aria-hidden="true">
         <div class="shackle"></div>
         <div class="lockbody"><div class="hole"></div></div>
       </div>
-      <h2>Your life stays yours.</h2>
+      <h2 class="rise" style="--d:150ms">Your life stays yours.</h2>
     </div>
     <ul>
-      {points.map(([title, body]) => (
-        <li>
+      {points.map(([title, body], i) => (
+        <li class="thread" style={`--i:${i + 1}`}>
           <span class="title">{title}</span>
-          <span class="body">{body}</span>
+          {body && <span class="body">{body}</span>}
         </li>
       ))}
     </ul>
@@ -74,6 +74,34 @@ const points = [
     height: 34px;
     border-radius: 8px;
     background: rgb(var(--shell-field));
+  }
+
+  /* The padlock arrives open, then the shackle drops shut. */
+  .padlock {
+    transition: transform 600ms var(--ease), opacity 400ms var(--ease);
+  }
+
+  .shackle {
+    transition: transform 450ms cubic-bezier(0.5, 0, 0.75, 0) 650ms;
+  }
+
+  @keyframes clunk {
+    40% {
+      transform: translateY(4px);
+    }
+  }
+
+  :global(.motion) [data-in].is-in .lockbody {
+    animation: clunk 320ms var(--ease) 1080ms;
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .padlock {
+    opacity: 0;
+    transform: translateY(24px);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .shackle {
+    transform: translateY(-26px);
   }
 
   h2 {

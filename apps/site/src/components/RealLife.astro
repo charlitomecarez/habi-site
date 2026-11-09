@@ -1,20 +1,19 @@
 ---
 const items = [
-  { field: 'home', text: 'The ADV 160 and its kilometres.' },
+  { field: 'home', text: 'Your car, motorbike or scooter, and its kilometres.' },
   { field: 'records', text: 'GCash and MariBank, in one total.' },
   { field: 'daily', text: 'Ulam under ₱99.' },
   { field: 'people', text: 'Voice notes in Taglish.' },
 ];
 ---
 
-<section class="wrap real">
+<section class="wrap real" data-in>
   <div class="intro">
-    <h2>A real life, not a demo.</h2>
-    <p>A general app can't join these facts. my-app was built around them, one module at a time.</p>
+    <h2 class="rise">A real life, not a demo.</h2>
   </div>
   <ul>
-    {items.map((item) => (
-      <li>
+    {items.map((item, i) => (
+      <li class="thread" style={`--i:${i}`}>
         <span class={`swatch field-${item.field}`} aria-hidden="true"></span>
         <span class="text">{item.text}</span>
       </li>
@@ -46,10 +45,6 @@ const items = [
     letter-spacing: -0.03em;
   }
 
-  .intro p {
-    color: rgb(var(--fg-muted));
-  }
-
   ul {
     flex: 2 1 520px;
     min-width: 0;
@@ -79,6 +74,15 @@ const items = [
     background-image:
       repeating-linear-gradient(90deg, rgb(255 255 255 / 0.14) 0 8px, transparent 8px 16px),
       repeating-linear-gradient(0deg, rgb(0 0 0 / 0.14) 0 8px, transparent 8px 16px);
+  }
+
+  /* Each swatch turns into place as its row is pulled in. */
+  .swatch {
+    transition: transform 900ms var(--ease) calc(250ms + var(--i) * 110ms);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .swatch {
+    transform: rotate(-90deg) scale(0.4);
   }
 
   .text {

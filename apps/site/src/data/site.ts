@@ -14,13 +14,13 @@ export type Fact = {
 // The hero hook: chips the visitor taps to build their own Home sentence.
 export const facts: Fact[] = [
   { id: 'meralco', chip: 'I pay Meralco', say: 'Pay Meralco by Friday.', row: 'Meralco bill', badge: 'Due soon', tone: 'watch' },
-  { id: 'adv', chip: 'I ride an ADV', say: 'The ADV is 120 km from an oil change.', row: 'Oil change', badge: '120 km', tone: 'watch' },
+  { id: 'vehicle', chip: 'I drive or ride', say: 'Your vehicle is 120 km from an oil change.', row: 'Oil change', badge: '120 km', tone: 'watch' },
   { id: 'gcash', chip: 'I use GCash', say: 'GCash has ₱3,410 left for the week.', row: 'GCash', badge: '₱3,410', tone: 'plain' },
   { id: 'gym', chip: 'I go to the gym', say: 'Leg day is at 6:00 PM.', row: 'Leg day', badge: '6:00 PM', tone: 'plain' },
 ];
 
 export const demoLines = {
-  first: 'Pay Meralco by Friday. The ADV is 120 km from an oil change.',
+  first: 'Pay Meralco by Friday. Your vehicle is 120 km from an oil change.',
   second: 'Meralco is paid. Only the oil change needs you now.',
 };
 

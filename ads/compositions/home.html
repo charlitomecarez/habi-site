@@ -1,0 +1,110 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="home" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+  <div class="bg weave field-shell"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+  <h1 class="hook" id="hook">One sentence. <em>Your whole day.</em></h1>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="screen">
+        <div class="layer">
+          <div class="top">
+            <span class="small">Mon, Nov 9 · Good morning</span>
+            <span class="say swap">
+              <span id="l1"></span>
+              <span id="l2"></span>
+            </span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card">
+              <span class="label">This week</span>
+              <div class="week">
+                <div class="wday"><span class="wbar good"></span>M</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar watch"></span>W</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar over"></span>F</div>
+                <div class="wday"><span class="wbar good"></span>S</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+              </div>
+            </div>
+            <div class="tiles">
+              <div class="card tile" id="t-todos"><span class="tiny muted">Todos</span><span class="tile-value swap"><span id="todo-a">4 left</span><span id="todo-b" style="opacity:0">3 left</span></span></div>
+              <div class="card tile" id="t-spent"><span class="tiny muted">Spent today</span><span class="tile-value" id="spent">₱312</span></div>
+              <div class="card tile"><span class="tiny muted">Weather</span><span class="tile-value">31°</span></div>
+              <div class="card tile" id="t-steps"><span class="tiny muted">Steps</span><span class="tile-value" id="steps">6,204</span></div>
+            </div>
+            <div class="card card--flush">
+              <span class="label" style="padding: 10px 12px 0">Needs you</span>
+              <div class="row"><span class="name">Send rent to Ate</span><span class="pill pill--watch">Today</span></div>
+              <div class="row"><span class="name">Oil change</span><span class="pill pill--watch">120 km</span></div>
+            </div>
+          </div>
+          <div class="tabs"><span class="on">Home</span><span>Todos</span><span>Money</span><span>Vehicle</span><span>More</span></div>
+        </div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="left: 26px; top: 760px">Your todos</div>
+  <div class="sticker sticker--gold" id="s2" style="right: 30px; top: 1010px">Your ₱</div>
+  <div class="sticker sticker--pink" id="s3" style="left: 40px; top: 1300px">Your ride</div>
+  <div class="sticker sticker--gold" id="s4" style="right: 30px; top: 1560px">Home reads them all.</div>
+
+  <div class="end weave field-shell" data-endline="Know what needs you <em>today.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('home');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['home'] = A.tl;
+  const { tl } = A;
+  const D = 12.5;
+
+  A.drift(D);
+  A.brandIn(0.1);
+  A.hookIn('#hook', 0.25);
+  const landed = A.phoneIn(0.8);
+  A.float(landed, 8.9);
+
+  // The week band grows in, day by day.
+  tl.from('.wbar', { scaleY: 0, duration: 0.5, ease: 'back.out(1.6)', stagger: 0.09 }, 1.5);
+
+  // Home speaks.
+  let t = A.type('#l1', 'Three things need you. The rest can wait.', 1.9);
+  A.sticker('#s1', 2.5, 5.6, -5);
+  A.sticker('#s2', 3.1, 5.7, 4);
+  A.sticker('#s3', 3.7, 5.8, -3);
+
+  A.count('#steps', 6204, 6900, 4.0, 1.2, A.fmt.int);
+  A.pop('#t-steps', 5.1);
+
+  // A todo gets done; the sentence rewrites itself.
+  A.tap(80, 322, 5.6);
+  A.swap('#todo-a', '#todo-b', 5.8);
+  A.pop('#t-todos', 5.85);
+  A.count('#spent', 312, 367, 6.0, 0.8, A.fmt.pesoWhole);
+  t = A.erase('#l1', 6.1);
+  A.type('#l2', 'Rent is due today. Send it to Ate.', t + 0.15);
+  A.sticker('#s4', 7.0, 8.7, -3);
+
+  // Out to the end card.
+  A.wipe(9.0, (covered) => {
+    tl.set(['.stage', '.sticker', '.hook', '.brandline'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

@@ -1,19 +1,19 @@
 ---
 const items = [
-  ['How do I install it?', 'You build the APK from your own fork on expo.dev, then install it on your Android phone. my-app is not on the Play Store.'],
+  ['How do I install it?', 'You build the APK from your own fork on expo.dev, then install it on your Android phone. Habi is not on the Play Store.'],
   ['What stays on the phone?', 'Steps, sleep, screen time, checks and the saved weather place. Everything else goes to your own Supabase project.'],
   ['Why is a module missing?', "It needs a key you haven't added. A module without its key hides itself."],
   ['Can I use it on an iPhone?', 'The web build covers most screens, so it works in Safari. An iPhone app is not built yet.'],
 ];
 ---
 
-<section id="faq" class="faq">
+<section id="faq" class="faq" data-in>
   <div class="wrap row">
-    <h2>Questions people ask.</h2>
+    <h2 class="rise">Questions people ask.</h2>
     <div class="list">
-      {items.map(([q, a]) => (
-        <details>
-          <summary>{q}</summary>
+      {items.map(([q, a], i) => (
+        <details class="thread" style={`--i:${i}`}>
+          <summary>{q}<span class="pm" aria-hidden="true"></span></summary>
           <p>{a}</p>
         </details>
       ))}
@@ -63,10 +63,87 @@ const items = [
     font-weight: 900;
     font-size: 22px;
     cursor: pointer;
+    list-style: none;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+  }
+
+  summary::-webkit-details-marker {
+    display: none;
+  }
+
+  /* Plus turns into minus. */
+  .pm {
+    position: relative;
+    flex: 0 0 auto;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    border: 2px solid rgb(var(--fg));
+    transition: background-color 200ms, transform 400ms var(--ease);
+  }
+
+  .pm::before,
+  .pm::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    margin: auto;
+    width: 12px;
+    height: 2.5px;
+    border-radius: 2px;
+    background: rgb(var(--fg));
+    transition: transform 400ms var(--ease), background-color 200ms;
+  }
+
+  .pm::after {
+    transform: rotate(90deg);
+  }
+
+  summary:hover .pm {
+    background: rgb(var(--fg) / 0.08);
+  }
+
+  details[open] .pm {
+    transform: rotate(180deg);
+    background: rgb(var(--fg));
+  }
+
+  details[open] .pm::before,
+  details[open] .pm::after {
+    background: rgb(var(--muted));
+  }
+
+  details[open] .pm::after {
+    transform: rotate(0deg);
   }
 
   p {
-    margin-top: 10px;
+    padding-top: 10px;
     color: rgb(var(--fg-muted));
+  }
+
+  /* The answer slides open instead of snapping, where the browser supports it. */
+  details::details-content {
+    height: 0;
+    overflow: clip;
+    opacity: 0;
+    transition:
+      height 400ms var(--ease),
+      opacity 300ms var(--ease),
+      content-visibility 400ms allow-discrete;
+  }
+
+  details[open]::details-content {
+    height: auto;
+    opacity: 1;
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    details::details-content {
+      transition: opacity 200ms, content-visibility 200ms allow-discrete;
+    }
   }
 </style>

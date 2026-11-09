@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="money" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+  <div class="bg weave field-records"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+  <h1 class="hook" id="hook">GCash +<br>MariBank.<br><em>One number.</em></h1>
+
+  <div class="stage" style="top: 650px">
+    <div class="phone">
+      <div class="screen">
+        <div class="layer">
+          <div class="top">
+            <span class="small">Mon, Nov 9</span>
+            <span class="title">Money</span>
+            <span class="small">All wallets, in pesos</span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card total-card">
+              <span class="label">Total</span>
+              <span class="big-num" id="total">₱18,240.50</span>
+            </div>
+            <div class="card card--flush">
+              <div class="row" id="w-gcash"><span class="letter letter--records">G</span><span class="name">GCash</span><span class="amt" id="gcash">₱3,410.20</span><span class="chip chip--minus" id="c-gcash">−₱1,299.00</span></div>
+              <div class="row" id="w-mari"><span class="letter letter--daily">M</span><span class="name">MariBank</span><span class="amt" id="mari">₱14,830.30</span><span class="chip chip--plus" id="c-mari">+₱2,500.00</span></div>
+            </div>
+            <div class="card card--flush">
+              <span class="label" style="padding: 10px 12px 0">Bills</span>
+              <div class="row"><span class="name">Meralco<span class="sub">₱2,315.40</span></span><span class="pill pill--good">Paid</span></div>
+              <div class="row" id="globe"><span class="hl"></span><span class="name">Globe postpaid<span class="sub">₱1,299.00 · Due Nov 18</span></span>
+                <span class="swap"><span class="pill pill--watch" id="g-due">Due soon</span><span class="pill pill--good" id="g-paid" style="opacity:0">Paid</span></span>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span>Todos</span><span class="on">Money</span><span>Vehicle</span><span>More</span></div>
+        </div>
+        <div class="toast" id="toast"><span data-icon="check"></span>Payday: ₱2,500.00 in MariBank</div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="left: 24px; top: 1000px">Every wallet. One total.</div>
+  <div class="sticker sticker--green" id="s2" style="right: 26px; top: 1560px">Bills say Paid.</div>
+  <div class="sticker sticker--gold" id="s3" style="left: 30px; top: 760px">In pesos. Always.</div>
+
+  <div class="end weave field-records" data-endline="Your ₱, <em>in one place.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('money');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['money'] = A.tl;
+  const { tl } = A;
+  const P = A.fmt.peso;
+  A.drift(12.5);
+  A.brandIn(0.1);
+  A.hookIn('#hook', 0.25);
+  const landed = A.phoneIn(0.8, 1.85);
+  A.float(landed, 8.9);
+
+  // The total adds itself up.
+  A.count('#total', 0, 18240.5, 1.6, 1.4, P);
+  A.sticker('#s1', 2.4, 4.0, -4);
+
+  // Globe gets paid from GCash.
+  tl.to('#globe .hl', { opacity: 1, duration: 0.2 }, 4.1);
+  A.tapOn('#g-due', 4.15);
+  A.swap('#g-due', '#g-paid', 4.4);
+  A.pop('#g-paid', 4.7);
+  tl.to('#globe .hl', { opacity: 0, duration: 0.4 }, 4.9);
+  tl.fromTo('#c-gcash', { y: 6, opacity: 0 }, { y: -4, opacity: 1, duration: 0.3 }, 4.6);
+  tl.to('#c-gcash', { y: -16, opacity: 0, duration: 0.4 }, 6.0);
+  A.count('#gcash', 3410.2, 2111.2, 4.6, 1.1, P);
+  A.count('#total', 18240.5, 16941.5, 4.7, 1.2, P);
+  A.sticker('#s2', 4.8, 6.4, 4);
+
+  // Payday lands.
+  tl.from('#toast', { y: 120, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, 6.4);
+  tl.fromTo('#c-mari', { y: 6, opacity: 0 }, { y: -4, opacity: 1, duration: 0.3 }, 6.6);
+  tl.to('#c-mari', { y: -16, opacity: 0, duration: 0.4 }, 8.0);
+  A.count('#mari', 14830.3, 17330.3, 6.6, 1.1, P);
+  A.count('#total', 16941.5, 19441.5, 6.7, 1.2, P);
+  A.pop('.total-card', 7.9);
+  A.sticker('#s3', 6.9, 8.7, -3);
+
+  A.wipe(9.0, (covered) => {
+    tl.set(['.stage', '.sticker', '.hook', '.brandline'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

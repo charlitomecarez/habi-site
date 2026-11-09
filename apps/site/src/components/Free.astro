@@ -7,27 +7,26 @@ const lines = [
 ];
 ---
 
-<section id="free" class="wrap free">
+<section id="free" class="wrap free" data-in>
   <div class="text">
     <h2>
       <span class="zero">₱0</span>
       <span class="sub">A month, for your own copy.</span>
     </h2>
-    <p>Every service it uses has a free plan that covers one person.</p>
   </div>
   <div class="receipt-wrap">
     <div class="receipt">
       <div class="receipt-head">
-        <span class="receipt-title">my-app</span>
+        <span class="receipt-title">Habi</span>
         <span class="muted small">Monthly bill for one person</span>
       </div>
-      {lines.map(([name, what]) => (
-        <div class="line">
+      {lines.map(([name, what], i) => (
+        <div class="line" style={`--i:${i}`}>
           <span><strong>{name}</strong><br /><span class="muted small">{what}</span></span>
           <span class="cost">₱0.00</span>
         </div>
       ))}
-      <div class="line total"><span>Total</span><span class="good">₱0.00</span></div>
+      <div class="line total" style="--i:4"><span>Total</span><span class="good">₱0.00</span></div>
       <p class="keys">Sports, Inbox, Ulam and Find a work need a free key that you get yourself.</p>
     </div>
     <div class="tear" aria-hidden="true"></div>
@@ -51,10 +50,6 @@ const lines = [
     display: flex;
     flex-direction: column;
     gap: 8px;
-  }
-
-  .text p {
-    color: rgb(var(--fg-muted));
   }
 
   h2 {
@@ -140,6 +135,45 @@ const lines = [
     border-radius: 10px;
     background: rgb(var(--watch-tint));
     font-size: 14px;
+  }
+
+  /* The bill prints out of a slot, line by line, then ₱0 lands. */
+  .receipt-wrap {
+    transition: clip-path 1200ms var(--ease) 150ms;
+  }
+
+  .receipt {
+    transition: transform 1200ms var(--ease) 150ms;
+  }
+
+  .line {
+    transition: opacity 400ms var(--ease) calc(500ms + var(--i) * 140ms);
+  }
+
+  .zero {
+    display: inline-block;
+    transition:
+      transform 900ms var(--ease) 1150ms,
+      opacity 500ms var(--ease) 1150ms,
+      filter 700ms var(--ease) 1150ms;
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .receipt-wrap {
+    clip-path: inset(0 -24px 100% -24px);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .receipt {
+    transform: translateY(-40%);
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .line {
+    opacity: 0;
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .zero {
+    opacity: 0;
+    transform: scale(1.18);
+    filter: blur(10px);
   }
 
   .tear {

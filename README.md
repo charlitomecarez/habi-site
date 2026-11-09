@@ -1,10 +1,12 @@
 <div align="center">
 
-<img src="docs/images/readme-icon.svg" alt="my-app icon: four cream tiles on indigo, one with a check" width="112" />
+<img src="docs/images/readme-icon.svg" alt="Habi icon: four cream tiles on indigo, one with a check" width="112" />
 
 # my-app-site
 
-### The website for my-app, one private app that tells you what needs you today.
+### The website for Habi, one private app that tells you what needs you today.
+
+*Habi* is Tagalog for "weave". The app weaves each part of your day into one Home.
 
 **The landing page in Astro and the web app in Next.js, in one pnpm monorepo.**
 
@@ -28,7 +30,7 @@
 
 <br />
 
-<img src="docs/images/readme-banner.png" alt="The my-app landing page hero: the headline, the Make your own copy button, and a phone where Home says what needs you, after three chips are picked" width="1200" />
+<img src="docs/images/readme-banner.png" alt="The Habi landing page hero: the headline, the Make your own copy button, and a phone where Home says what needs you, after three chips are picked" width="1200" />
 
 <br /><br />
 
@@ -36,7 +38,7 @@
 
 ---
 
-The landing page tells a visitor what my-app is and how to make their own copy. In the hero, the phone plays the Home screen on its own. The visitor can tap chips such as "I pay Meralco" and "I ride an ADV", and Home types a sentence from them. The page uses the same Banig look as the app: indigo, cream and woven colour fields.
+The landing page tells a visitor what Habi is and how to make their own copy. The hero plays a 26-second ad that walks through Home, Todos, Money, Vehicle and the Vault. The Home, Todos and Vault bands in the Tour play short HyperFrames loops, and the ad sources live in `ads/`. The page uses the same Banig look as the app: indigo, cream and woven colour fields.
 
 > **[Read the release notes](https://github.com/charlitomecarez/my-app-site/releases)** for each version of the site.
 
@@ -91,14 +93,14 @@ flowchart LR
 | Section                | What the visitor gets                                                                                    |
 | ---------------------- | -------------------------------------------------------------------------------------------------------- |
 | **Hero**               | The headline, Make your own copy, and a phone that plays Home. Chips let the visitor tell Home about their week |
-| **A real life**        | Four facts that a general app can't join: the ADV 160, GCash and MariBank, ulam under ₱99, Taglish voice notes |
+| **A real life**        | Four facts that a general app can't join: any car or motorbike, GCash and MariBank, ulam under ₱99, Taglish voice notes |
 | **Tour**               | Five bands: Home, Todos, Vault, Money and Vehicle. Each band plays its motion once, when it comes into view |
 | **Ulam roll**          | Pick a limit, then roll a dish. It runs in the browser, with no account and no AI call                    |
 | **Everything else**    | Every other module, grouped the way the app's More tab groups them. A gold corner marks a module that needs a key |
 | **Private**            | How the vault, row-level security and on-phone data keep your life yours                                 |
 | **₱0**                 | A receipt for one person's month: every service on its free plan                                        |
 | **FAQ**                | Install, what stays on the phone, missing modules, iPhone                                                |
-| **Make your own copy** | The four steps, the clone commands and a link to CONTRIBUTING.md in my-app                               |
+| **Make your own copy** | The four steps, the clone commands and a link to CONTRIBUTING.md in the app repo                              |
 
 The page follows the system light or dark setting. It has a skip link and a visible focus ring on every link and button.
 
@@ -185,11 +187,11 @@ Run `pnpm lint`, `pnpm build:site` and `pnpm build:web` before you open a pull r
 
 ## Documentation
 
-- [my-app README](https://github.com/charlitomecarez/my-app#readme): what the app does.
-- [my-app CONTRIBUTING.md](https://github.com/charlitomecarez/my-app/blob/main/CONTRIBUTING.md): set up your own copy of the app.
-- [my-app design system](https://github.com/charlitomecarez/my-app/blob/main/docs/design-system.md): the Banig tokens that the site uses.
+- [Habi README](https://github.com/charlitomecarez/my-app#readme): what the app does.
+- [Habi CONTRIBUTING.md](https://github.com/charlitomecarez/my-app/blob/main/CONTRIBUTING.md): set up your own copy of the app.
+- [Habi design system](https://github.com/charlitomecarez/my-app/blob/main/docs/design-system.md): the Banig tokens that the site uses.
 - [Releases](https://github.com/charlitomecarez/my-app-site/releases): every release of the site.
 
 ## License
 
-This repository has no license file yet. The my-app code is [MIT](https://github.com/charlitomecarez/my-app/blob/main/LICENSE).
+This repository has no license file yet. The Habi code is [MIT](https://github.com/charlitomecarez/my-app/blob/main/LICENSE).

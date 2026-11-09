@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+<style>
+  /* The Home screen from the site's Tour band, 280 x 560, rendered at 2x. */
+  #root { position: relative; width: 560px; height: 1120px; overflow: hidden; background: rgb(var(--bg)); font-family: 'Schibsted Grotesk', system-ui, sans-serif; -webkit-font-smoothing: antialiased; }
+  .s { width: 280px; height: 560px; transform: scale(2); transform-origin: 0 0; display: flex; flex-direction: column; color: rgb(var(--fg)); font-size: 13px; line-height: 1.4; }
+  .s-top { background: rgb(var(--shell)); color: rgb(var(--on-shell)); padding: 26px 18px 18px; display: flex; flex-direction: column; gap: 8px; }
+  .s-top .small { opacity: 0.8; }
+  .s .say { font-size: 22px; line-height: 1.15; font-weight: 900; letter-spacing: -0.02em; min-height: 2.3em; display: grid; }
+  .s .say > span { grid-area: 1 / 1; }
+  .s-body { padding: 14px; display: flex; flex-direction: column; gap: 12px; }
+  .mini { background: rgb(var(--card)); border: 2px solid rgb(var(--border)); border-radius: 14px; padding: 12px; display: flex; flex-direction: column; gap: 10px; }
+  .wk { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; text-align: center; font-size: 11px; font-weight: 700; color: rgb(var(--fg-muted)); }
+  .wd { display: flex; flex-direction: column; gap: 4px; }
+  .wb { height: 48px; border-radius: 6px; transform-origin: bottom; }
+  .tl { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 10px; }
+  .tile { gap: 2px; }
+  .tv { font-size: 20px; font-weight: 900; display: grid; justify-items: start; }
+  .tv > span { grid-area: 1 / 1; transform-origin: left bottom; }
+</style>
+</head>
+<body>
+<!-- A seamless 15 s loop: it starts and ends on "Three things need you. The rest can wait." -->
+<div id="root" data-composition-id="home-screen" data-start="0" data-duration="15" data-width="560" data-height="1120">
+  <div class="s">
+    <div class="s-top">
+      <span class="small">Good morning</span>
+      <span class="say"><span id="l0"></span><span id="l1"></span><span id="l2"></span><span id="l3"></span><span id="l4"></span></span>
+    </div>
+    <div class="s-body">
+      <div class="mini">
+        <span class="small muted">This week</span>
+        <div class="wk">
+          <div class="wd"><span class="wb good"></span>M</div>
+          <div class="wd"><span class="wb good"></span>T</div>
+          <div class="wd"><span class="wb watch"></span>W</div>
+          <div class="wd"><span class="wb good"></span>T</div>
+          <div class="wd"><span class="wb over" id="fri"></span>F</div>
+          <div class="wd"><span class="wb good"></span>S</div>
+          <div class="wd"><span class="wb rest"></span>S</div>
+        </div>
+      </div>
+      <div class="tl">
+        <div class="mini tile" id="t-todos"><span class="tiny muted">Todos</span><span class="tv"><span id="todo-a">4 left</span><span id="todo-b" style="opacity:0">3 left</span></span></div>
+        <div class="mini tile" id="t-spent"><span class="tiny muted">Spent today</span><span class="tv"><span id="spent">₱312</span></span></div>
+        <div class="mini tile"><span class="tiny muted">Weather</span><span class="tv"><span>31°</span></span></div>
+        <div class="mini tile" id="t-steps"><span class="tiny muted">Steps</span><span class="tv"><span id="steps">6,204</span></span></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script>
+  const A = Ad('home-screen');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['home-screen'] = A.tl;
+  const { tl } = A;
+  const REST = 'Three things need you. The rest can wait.';
+  const TINT = 'rgb(228 225 242)';
+  const CARD = 'rgb(255 251 240)';
+
+  // A tile lights up and its value gives a small bump.
+  const bump = (tile, value, at) => {
+    tl.to(tile, { backgroundColor: TINT, borderColor: 'rgb(35 32 92 / 0.5)', duration: 0.3 }, at);
+    tl.fromTo(value, { scale: 1 }, { scale: 1.14, duration: 0.2, ease: 'power2.out', yoyo: true, repeat: 1, immediateRender: false }, at);
+    tl.to(tile, { backgroundColor: CARD, borderColor: 'rgb(216 203 166)', duration: 0.5 }, at + 1.4);
+  };
+
+  // Morning: the week band redraws and today's bar gets its ring.
+  // The opening line is on screen from the first frame: plain visible spans, so erase() can take it away.
+  document.querySelector('#l0').innerHTML = Array.from(REST).map((c) => `<span>${c}</span>`).join('');
+  tl.to('.wb', { scaleY: 0.08, duration: 0.3, ease: 'power2.in', stagger: 0.03 }, 0.3);
+  tl.to('.wb', { scaleY: 1, duration: 0.5, ease: 'back.out(1.6)', stagger: 0.09 }, 0.7);
+  tl.fromTo('#fri', { boxShadow: '0 0 0 0px rgb(255 251 240), 0 0 0 0px rgb(35 32 92)' },
+    { boxShadow: '0 0 0 2px rgb(255 251 240), 0 0 0 4px rgb(35 32 92)', duration: 0.3 }, 1.6);
+
+  // Home rewrites its sentence three times; each time a tile follows.
+  let t = A.erase('#l0', 2.0);
+  t = A.type('#l1', 'Rent is due today. Send it to Ate.', t + 0.2);
+  A.swap('#todo-a', '#todo-b', t + 0.3);
+  bump('#t-todos', '#todo-b', t + 0.3);
+
+  t = A.erase('#l1', t + 1.6);
+  t = A.type('#l2', 'You spent ₱55 on merienda.', t + 0.2);
+  A.count('#spent', 312, 367, t + 0.3, 0.7, A.fmt.pesoWhole);
+  bump('#t-spent', '#spent', t + 0.3);
+
+  t = A.erase('#l2', t + 1.6);
+  t = A.type('#l3', '6,900 steps. A short walk gets you to 8k.', t + 0.2);
+  A.count('#steps', 6204, 6900, t + 0.3, 0.9, A.fmt.int);
+  bump('#t-steps', '#steps', t + 0.3);
+
+  // And back to the start, so the loop has no seam.
+  t = A.erase('#l3', t + 1.6);
+  t = A.type('#l4', REST, t + 0.2);
+  tl.to('#todo-b', { opacity: 0, duration: 0.3 }, t + 0.2);
+  tl.to('#todo-a', { opacity: 1, y: 0, duration: 0.3 }, t + 0.3);
+  A.count('#spent', 367, 312, t + 0.2, 0.5, A.fmt.pesoWhole);
+  A.count('#steps', 6900, 6204, t + 0.2, 0.5, A.fmt.int);
+  tl.to('#fri', { boxShadow: '0 0 0 0px rgb(255 251 240), 0 0 0 0px rgb(35 32 92)', duration: 0.3 }, t + 0.4);
+  window.__loopEnd = t;
+</script>
+</body>
+</html>

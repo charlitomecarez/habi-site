@@ -1,0 +1,71 @@
+{
+  "detector": {
+    "ignoreRules": [],
+    "ignoreFiles": [],
+    "ignoreValues": [
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "ads/compositions/home.html"
+        ],
+        "createdAt": "2026-11-09T10:35:01.006Z",
+        "reason": "Claude: phone mockup authored at 1x inside a .stage scaled 1.85-1.95x in a 1080x1920 video, so 10-11px UI text renders at ~20px and pills are app-scale; not live UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ads/compositions/home.html"
+        ],
+        "createdAt": "2026-11-09T10:35:01.026Z",
+        "reason": "Claude: phone mockup authored at 1x inside a .stage scaled 1.85-1.95x in a 1080x1920 video, so 10-11px UI text renders at ~20px and pills are app-scale; not live UI"
+      },
+      {
+        "rule": "undersized-ui-text",
+        "value": "*",
+        "files": [
+          "ads/compositions/todos.html"
+        ],
+        "createdAt": "2026-11-09T10:35:01.047Z",
+        "reason": "Claude: phone mockup authored at 1x inside a .stage scaled 1.85-1.95x in a 1080x1920 video, so 10-11px UI text renders at ~20px and pills are app-scale; not live UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ads/compositions/todos.html"
+        ],
+        "createdAt": "2026-11-09T10:35:01.069Z",
+        "reason": "Claude: phone mockup authored at 1x inside a .stage scaled 1.85-1.95x in a 1080x1920 video, so 10-11px UI text renders at ~20px and pills are app-scale; not live UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ads/compositions/todos-card.html"
+        ],
+        "createdAt": "2026-11-09T11:01:16.926Z",
+        "reason": "Claude: video composition authored at 1x inside a 2x-scaled card; rows have 14-16px insets and the flagged pills mirror the site's existing pill sizing, rendered to MP4 rather than shipped as UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ads/compositions/vault-card.html"
+        ],
+        "createdAt": "2026-11-09T11:01:16.943Z",
+        "reason": "Claude: video composition authored at 1x inside a 2x-scaled card; rows have 14-16px insets and the flagged pills mirror the site's existing pill sizing, rendered to MP4 rather than shipped as UI"
+      },
+      {
+        "rule": "cramped-padding",
+        "value": "*",
+        "files": [
+          "ads/compositions/home-screen.html"
+        ],
+        "createdAt": "2026-11-09T11:06:58.598Z",
+        "reason": "Claude: video composition drawn at 1x inside a 2x-scaled screen, copying the site's existing Home screen insets (12px card padding, 18px header); rendered to MP4, not shipped as UI"
+      }
+    ]
+  }
+}

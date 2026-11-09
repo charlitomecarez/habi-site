@@ -6,20 +6,9 @@ const stops = [
   { id: 't-money', label: 'Money', field: 'records' },
   { id: 't-vehicle', label: 'Vehicle', field: 'home' },
 ];
-const week = [
-  ['M', 'good'], ['T', 'good'], ['W', 'watch'], ['T', 'good'], ['F', 'over'], ['S', 'good'], ['S', 'muted'],
-];
-const tiles = [
-  ['Todos', '4 left'], ['Spent today', '₱312'], ['Weather', '31°'], ['Steps', '6,204'],
-];
-const vault = [
-  { letter: 'G', name: 'GCash', tone: 'records', dots: 8 },
-  { letter: 'M', name: 'Mail', tone: 'people', dots: 10 },
-  { letter: 'W', name: 'Home Wi-Fi', tone: 'home', dots: 12 },
-];
 const services = [
   { name: 'Oil change', status: 'Due soon', kind: 'watch', fill: 88, note: 'At 12,600 km. 120 km left.' },
-  { name: 'Drive belt', status: 'On track', kind: 'plain', fill: 45, note: 'At 18,000 km. 5,520 km left.' },
+  { name: 'Tire check', status: 'On track', kind: 'plain', fill: 45, note: 'At 18,000 km. 5,520 km left.' },
   { name: 'Brake check', status: 'Overdue', kind: 'over', fill: 100, note: 'Was due at 12,000 km.' },
 ];
 ---
@@ -27,9 +16,16 @@ const services = [
 <section id="tour" class="tour">
   <div class="wrap head">
     <h2>Five screens you'd open every day.</h2>
-    <nav aria-label="Tour stops">
-      {stops.map((s) => <a href={`#${s.id}`} class={`field-${s.field}`}>{s.label}</a>)}
-    </nav>
+    <div class="head-tools">
+      <nav aria-label="Tour stops">
+        {stops.map((s) => <a href={`#${s.id}`} class={`field-${s.field}`}>{s.label}</a>)}
+      </nav>
+      <button type="button" class="pause" data-loop-toggle aria-pressed="false" hidden>
+        <svg class="i-pause" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="6" y="5" width="4" height="14" rx="1"></rect><rect x="14" y="5" width="4" height="14" rx="1"></rect></svg>
+        <svg class="i-play" width="16" height="16" viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M7 5l12 7-12 7z"></path></svg>
+        <span data-loop-label>Pause screens</span>
+      </button>
+    </div>
   </div>
 
   <!-- Home: the one full phone -->
@@ -37,45 +33,26 @@ const services = [
     <div class="wrap band band--split">
       <div class="text">
         <h3 class="big">Home speaks first.</h3>
-        <p class="lead">Every module feeds one sentence. You read it, and you know what today needs.</p>
+        <p class="lead">Every module feeds one sentence: what today needs.</p>
         <ul class="legend">
           <li><span class="key key--good" aria-hidden="true"></span>Green: the day went to plan</li>
           <li><span class="key key--watch" aria-hidden="true"></span>Gold: something needs a look</li>
           <li><span class="key key--over" aria-hidden="true"></span>Pink: something went over</li>
         </ul>
       </div>
-      <div
-        class="phone"
-        role="img"
-        aria-label="Home screen with a week band: four good days, one to watch and one over. Tiles show 4 todos left, ₱312 spent today, 31 degrees and 6,204 steps."
-      >
-        <div class="screen" aria-hidden="true">
-          <div class="screen-top">
-            <span class="small">Good morning</span>
-            <span class="say">Three things need you. The rest can wait.</span>
-          </div>
-          <div class="screen-body">
-            <div class="mini-card">
-              <span class="small muted">This week</span>
-              <div class="week">
-                {week.map(([d, tone], i) => (
-                  <div class="wday">
-                    <span class={`wbar wbar--${tone}`} style={`--i: ${i}`}></span>
-                    {d}
-                  </div>
-                ))}
-              </div>
-            </div>
-            <div class="tiles">
-              {tiles.map(([label, value]) => (
-                <div class="mini-card tile">
-                  <span class="tiny muted">{label}</span>
-                  <span class="tile-value">{value}</span>
-                </div>
-              ))}
-            </div>
-          </div>
-        </div>
+      <div class="phone" data-clip>
+        <video
+          muted
+          loop
+          playsinline
+          preload="none"
+          width="560"
+          height="1120"
+          poster="/ads/home-screen.webp"
+          aria-label="Home screen: the week band redraws and Friday is ringed. Home says three things need you, then rent is due today, then you spent ₱55 on merienda, then 6,900 steps, and each matching tile updates."
+        >
+          <source src="/ads/home-screen.mp4" type="video/mp4" />
+        </video>
       </div>
     </div>
   </div>
@@ -85,54 +62,23 @@ const services = [
     <div id="t-todos" class="weave field-daily on-dark" data-reveal>
       <div class="band band--half">
         <h3 class="mid">Todos that remind you.</h3>
-        <p class="lead">Check one off, and Home stops asking. Give one a time, and your phone tells you when.</p>
-        <div class="mock" role="img" aria-label="Todo list: Renew OR/CR is checked. Send rent to Ate is due today. A reminder is set for today, 5:00 PM.">
-          <div class="sheet" aria-hidden="true">
-            <div class="todo line">
-              <span class="box box--done"><svg class="tick" width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg></span>
-              <span class="todo-name done">Renew OR/CR</span>
-            </div>
-            <div class="todo line">
-              <span class="box"></span>
-              <span class="todo-name">Send rent to Ate</span>
-              <span class="pill pill--watch today">Today</span>
-            </div>
-            <div class="todo">
-              <span class="box"></span>
-              <span class="todo-name">Buy rice, 5 kg</span>
-            </div>
-          </div>
-          <div class="reminder" aria-hidden="true">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 8a6 6 0 0 0-12 0c0 7-3 9-3 9h18s-3-2-3-9M13.7 21a2 2 0 0 1-3.4 0"></path></svg>
-            Reminder set for today, 5:00 PM
-          </div>
-        </div>
+        <p class="lead">Give one a time and your phone reminds you. Check it off and Home stops asking.</p>
+        <figure class="clip" data-clip>
+          <video muted loop playsinline preload="none" width="760" height="430" poster="/ads/todos-card.webp" aria-label="Todo list: a reminder for Send rent to Ate drops in at 5:00 PM. Rent gets checked off, and Buy rice, 5 kg gets a reminder for tomorrow, 9:00 AM.">
+            <source src="/ads/todos-card.mp4" type="video/mp4" />
+          </video>
+        </figure>
       </div>
     </div>
     <div id="t-vault" class="weave field-people on-dark" data-reveal>
       <div class="band band--half">
         <h3 class="mid">A vault that stays locked.</h3>
-        <p class="lead">Passwords are encrypted on your phone before they go anywhere. Only your PIN opens them.</p>
-        <div class="mock" role="img" aria-label="Locked vault with three entries, GCash, Mail and Home Wi-Fi, each shown as dots.">
-          <div class="sheet" aria-hidden="true">
-            <div class="vault-head line">
-              <span>Vault</span>
-              <span class="lock">
-                <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><rect x="4" y="11" width="16" height="10" rx="2"></rect><path d="M8 11V7a4 4 0 0 1 8 0v4"></path></svg>
-                Locked
-              </span>
-            </div>
-            {vault.map((v, i) => (
-              <div class:list={['entry', { line: i < vault.length - 1 }]}>
-                <span class={`letter letter--${v.tone}`}>{v.letter}</span>
-                <div class="entry-text">
-                  <span class="entry-name">{v.name}</span>
-                  <span class="dots" style={`--i: ${i}`}>{'•'.repeat(v.dots)}</span>
-                </div>
-              </div>
-            ))}
-          </div>
-        </div>
+        <p class="lead">Encrypted on your phone. Only your PIN opens it.</p>
+        <figure class="clip" data-clip>
+          <video muted loop playsinline preload="none" width="760" height="538" poster="/ads/vault-card.webp" aria-label="Vault: a PIN is entered and the vault opens. The GCash password is copied and clears in 30 seconds, then the vault locks itself again.">
+            <source src="/ads/vault-card.mp4" type="video/mp4" />
+          </video>
+        </figure>
       </div>
     </div>
   </div>
@@ -142,21 +88,21 @@ const services = [
     <div class="wrap band band--stack">
       <div class="band-head">
         <h3 class="big">Money, in pesos.</h3>
-        <p class="lead narrow">Every wallet adds up to one number. Bills say Due soon before they're late, and Paid when they're done.</p>
+        <p class="lead narrow">Every wallet adds up to one number, and bills say when they're due.</p>
       </div>
       <div class="sum" role="img" aria-label="GCash ₱3,410.20 plus MariBank ₱14,830.30 equals ₱18,240.50.">
-        <div class="wallet" aria-hidden="true"><span class="wallet-name">GCash</span><span class="amount">₱3,410.20</span></div>
+        <div class="wallet" aria-hidden="true"><span class="wallet-name">GCash</span><span class="amount" data-amount="gcash">₱3,410.20</span><span class="float" data-float="gcash"></span></div>
         <span class="op" aria-hidden="true">+</span>
-        <div class="wallet" aria-hidden="true"><span class="wallet-name">MariBank</span><span class="amount">₱14,830.30</span></div>
+        <div class="wallet" aria-hidden="true"><span class="wallet-name">MariBank</span><span class="amount" data-amount="mari">₱14,830.30</span><span class="float" data-float="mari"></span></div>
         <span class="op" aria-hidden="true">=</span>
         <div class="wallet wallet--total" aria-hidden="true">
           <span class="wallet-name">Total</span>
-          <span class="amount amount--total" data-count="18240.50" data-format="peso">₱18,240.50</span>
+          <span class="amount amount--total" data-count="18240.50" data-format="peso" data-amount="total">₱18,240.50</span>
         </div>
       </div>
       <div class="bills">
         <span class="bill">Meralco ₱2,315.40 <span class="pill pill--good bill-pill">Paid</span></span>
-        <span class="bill">Globe postpaid ₱1,299.00 <span class="pill pill--watch bill-pill">Due soon</span></span>
+        <span class="bill" data-globe>Globe postpaid ₱1,299.00 <span class="pill pill--watch bill-pill" data-globe-pill>Due soon</span></span>
       </div>
     </div>
   </div>
@@ -165,25 +111,25 @@ const services = [
   <div id="t-vehicle" class="weave field-home on-dark" data-reveal>
     <div class="wrap band band--stack">
       <div class="band-head">
-        <h3 class="big">The ADV knows its next service.</h3>
-        <p class="lead narrow">Enter the odometer after a ride. my-app counts down to the oil change, the drive belt and the brakes.</p>
+        <h3 class="big">Your vehicle knows its next service.</h3>
+        <p class="lead narrow">Enter the odometer after a trip. Habi counts down to the next service.</p>
       </div>
       <div class="odo">
-        <span class="odo-label">Honda ADV 160 odometer</span>
-        <span class="odo-value" aria-hidden="true" data-count="12480" data-format="km">12,480 km</span>
+        <span class="odo-label">Odometer</span>
+        <span class="odo-value" aria-hidden="true" data-count="12480" data-format="km" data-odo>12,480 km</span>
         <span class="sr-only">12,480 km</span>
       </div>
       <ul class="services">
         {services.map((s) => (
-          <li>
+          <li data-service>
             <div class="service-head">
               <span class="service-name">{s.name}</span>
-              <span class={`status status--${s.kind}`}>{s.status}</span>
+              <span class={`status status--${s.kind}`} data-status>{s.status}</span>
             </div>
             <div class="track" aria-hidden="true">
-              <div class={`fill fill--${s.kind}`} style={`width: ${s.fill}%`}></div>
+              <div class={`fill fill--${s.kind}`} style={`--f: ${s.fill / 100}`}></div>
             </div>
-            <span>{s.note}</span>
+            <span data-note>{s.note}</span>
           </li>
         ))}
       </ul>
@@ -229,6 +175,265 @@ const services = [
     document.querySelectorAll('[data-reveal]').forEach((el) => io.observe(el));
   } else {
     document.querySelectorAll('[data-reveal]').forEach((el) => el.classList.add('is-in'));
+  }
+
+  /* ---------------------------------------------------------------------------
+     Live screens. After its entrance, each band replays a short story on repeat,
+     but only while it is on screen and the visitor hasn't paused. Every story ends
+     back on the resting state the markup shows, so stopping at any point settles
+     smoothly onto the same picture people see with reduce motion on or JS off.
+     --------------------------------------------------------------------------- */
+  if (!reduce && 'IntersectionObserver' in window) {
+    type Scene = { length: number; steps: [number, () => void][]; rest: () => void };
+
+    const q = <T extends Element = HTMLElement>(root: ParentNode, sel: string) => root.querySelector<T>(sel)!;
+    const qa = <T extends Element = HTMLElement>(root: ParentNode, sel: string) => Array.from(root.querySelectorAll<T>(sel));
+    const flash = (el: Element, cls: string, ms = 900) => {
+      el.classList.remove(cls);
+      void (el as HTMLElement).offsetWidth; // restart the animation
+      el.classList.add(cls);
+      window.setTimeout(() => el.classList.remove(cls), ms);
+    };
+
+    // Tween a number shown as text; returns nothing, cancels any tween already running on el.
+    const tweens = new WeakMap<Element, number>();
+    function tween(el: HTMLElement, from: number, to: number, ms: number, show: (n: number) => string) {
+      cancelAnimationFrame(tweens.get(el) ?? 0);
+      const start = performance.now();
+      const step = (now: number) => {
+        const t = Math.min(1, (now - start) / ms);
+        const e = t < 0.5 ? 4 * t * t * t : 1 - Math.pow(-2 * t + 2, 3) / 2;
+        el.textContent = show(from + (to - from) * e);
+        if (t < 1) tweens.set(el, requestAnimationFrame(step));
+      };
+      tweens.set(el, requestAnimationFrame(step));
+    }
+    const stopTween = (el: Element) => cancelAnimationFrame(tweens.get(el) ?? 0);
+    const pesoText = (n: number) => `₱${peso.format(n)}`;
+    const kmText = (n: number) => `${whole.format(n)} km`;
+
+    /* Money: Globe gets paid from GCash, then pay day lands in MariBank. The total follows. */
+    function moneyScene(band: HTMLElement): Scene {
+      const gcash = q(band, '[data-amount="gcash"]');
+      const mari = q(band, '[data-amount="mari"]');
+      const total = q(band, '[data-amount="total"]');
+      const fG = q(band, '[data-float="gcash"]');
+      const fM = q(band, '[data-float="mari"]');
+      const pill = q(band, '[data-globe-pill]');
+      const sum = q(band, '.sum');
+      const bills = q(band, '.bills');
+      const R = { g: 3410.2, m: 14830.3 };
+      const setPill = (paid: boolean) => {
+        pill.textContent = paid ? 'Paid' : 'Due soon';
+        pill.className = `pill bill-pill ${paid ? 'pill--good' : 'pill--watch'}`;
+      };
+      const float = (el: HTMLElement, txt: string, kind: 'plus' | 'minus') => {
+        el.textContent = txt;
+        el.className = `float ${kind}`;
+        void el.offsetWidth;
+        el.classList.add('go');
+      };
+      const rest = () => {
+        [gcash, mari, total].forEach(stopTween);
+        gcash.textContent = pesoText(R.g);
+        mari.textContent = pesoText(R.m);
+        total.textContent = pesoText(R.g + R.m);
+        setPill(false);
+        [fG, fM].forEach((f) => (f.className = 'float'));
+        qa(band, '.wallet').forEach((w) => w.classList.remove('is-hit'));
+      };
+      const hit = (el: HTMLElement, on: boolean) => el.closest('.wallet')!.classList.toggle('is-hit', on);
+      return {
+        length: 11500,
+        steps: [
+          [800, () => {
+            setPill(true);
+            flash(pill, 'pop', 500);
+          }],
+          [1100, () => {
+            hit(gcash, true);
+            float(fG, '−₱1,299.00', 'minus');
+            tween(gcash, R.g, R.g - 1299, 1200, pesoText);
+            tween(total, R.g + R.m, R.g + R.m - 1299, 1400, pesoText);
+          }],
+          [2600, () => hit(gcash, false)],
+          [4600, () => {
+            hit(mari, true);
+            float(fM, '+₱2,500.00', 'plus');
+            tween(mari, R.m, R.m + 2500, 1200, pesoText);
+            tween(total, R.g + R.m - 1299, R.g + R.m + 1201, 1400, pesoText);
+          }],
+          [6100, () => hit(mari, false)],
+          // A new week: fade out, settle back to the resting numbers, fade in.
+          [8800, () => [sum, bills].forEach((el) => el.classList.add('is-resetting'))],
+          [9200, () => rest()],
+          [9300, () => [sum, bills].forEach((el) => el.classList.remove('is-resetting'))],
+        ],
+        rest() {
+          rest();
+          [sum, bills].forEach((el) => el.classList.remove('is-resetting'));
+        },
+      };
+    }
+
+    /* Vehicle: a trip runs the odometer up, the oil change comes due, then gets logged. */
+    function vehicleScene(band: HTMLElement): Scene {
+      const odo = q(band, '[data-odo]');
+      const rows = qa(band, '[data-service]');
+      const odoBox = q(band, '.odo');
+      const list = q(band, '.services');
+      const rowState = rows.map((r) => ({
+        status: q(r, '[data-status]').textContent ?? '',
+        cls: q(r, '[data-status]').className,
+        fill: q(r, '.fill').style.getPropertyValue('--f'),
+        fillCls: q(r, '.fill').className,
+        note: q(r, '[data-note]').textContent ?? '',
+      }));
+      const [oil, tire] = rows;
+      const setStatus = (row: HTMLElement, text: string, kind: string) => {
+        const st = q(row, '[data-status]');
+        st.textContent = text;
+        st.className = `status status--${kind}`;
+        q(row, '.fill').className = `fill fill--${kind}`;
+        flash(st, 'pop', 500);
+      };
+      const setNote = (row: HTMLElement, text: string) => {
+        const n = q(row, '[data-note]');
+        n.classList.add('swap');
+        window.setTimeout(() => {
+          n.textContent = text;
+          n.classList.remove('swap');
+        }, 260);
+      };
+      const fill = (row: HTMLElement, f: number) => q(row, '.fill').style.setProperty('--f', String(f));
+      const rest = () => {
+        stopTween(odo);
+        odo.textContent = kmText(12480);
+        rows.forEach((r, i) => {
+          const st = q(r, '[data-status]');
+          st.textContent = rowState[i].status;
+          st.className = rowState[i].cls;
+          q(r, '.fill').className = rowState[i].fillCls;
+          q(r, '.fill').style.setProperty('--f', rowState[i].fill);
+          q(r, '[data-note]').textContent = rowState[i].note;
+        });
+      };
+      return {
+        length: 13000,
+        steps: [
+          [600, () => {
+            tween(odo, 12480, 12612, 2600, kmText);
+            fill(oil, 1);
+            fill(tire, 0.47);
+          }],
+          [1900, () => setNote(oil, 'At 12,600 km. Due now.')],
+          [3300, () => {
+            setStatus(oil, 'Due now', 'over');
+            setNote(tire, 'At 18,000 km. 5,388 km left.');
+          }],
+          [5600, () => setNote(oil, 'Logged at 12,612 km. Next at 15,612 km.')],
+          [5800, () => fill(oil, 0.02)],
+          [6200, () => setStatus(oil, 'On track', 'plain')],
+          [10000, () => [odoBox, list].forEach((el) => el.classList.add('is-resetting'))],
+          [10400, () => rest()],
+          [10500, () => [odoBox, list].forEach((el) => el.classList.remove('is-resetting'))],
+        ],
+        rest() {
+          rest();
+          [odoBox, list].forEach((el) => el.classList.remove('is-resetting'));
+        },
+      };
+    }
+
+    const scenes: [string, (b: HTMLElement) => Scene][] = [
+      ['#t-money', moneyScene],
+      ['#t-vehicle', vehicleScene],
+    ];
+
+    const toggle = document.querySelector<HTMLButtonElement>('[data-loop-toggle]')!;
+    const label = document.querySelector<HTMLElement>('[data-loop-label]')!;
+    let paused = false;
+
+    const players = scenes.map(([sel, make]) => {
+      const band = document.querySelector<HTMLElement>(sel)!;
+      const scene = make(band);
+      let timers: number[] = [];
+      let visible = false;
+      let running = false;
+      let firstRun = true;
+
+      const clear = () => {
+        timers.forEach(clearTimeout);
+        timers = [];
+      };
+      const cycle = () => {
+        clear();
+        scene.steps.forEach(([ms, fn]) => timers.push(window.setTimeout(fn, ms)));
+        timers.push(window.setTimeout(cycle, scene.length));
+      };
+      const start = () => {
+        if (running) return;
+        running = true;
+        // Let the entrance finish before the story starts the first time.
+        const wait = firstRun ? 1800 : 500;
+        firstRun = false;
+        timers.push(
+          window.setTimeout(() => {
+            band.setAttribute('data-live', '');
+            cycle();
+          }, wait),
+        );
+      };
+      const stop = () => {
+        if (!running) return;
+        running = false;
+        clear();
+        scene.rest();
+      };
+      const sync = () => (visible && !paused && !document.hidden ? start() : stop());
+
+      new IntersectionObserver(
+        ([entry]) => {
+          visible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0.35 },
+      ).observe(band);
+
+      return { sync };
+    });
+
+    // The Todos and Vault bands play HyperFrames clips (ads/compositions/*-screen.html) instead of
+    // live scenes. They follow the same rules: on screen, not paused, tab visible.
+    document.querySelectorAll<HTMLElement>('[data-clip]').forEach((fig) => {
+      const video = fig.querySelector('video')!;
+      let visible = false;
+      const sync = () => {
+        const want = visible && !paused && !document.hidden;
+        if (want && video.paused) video.play().catch(() => {});
+        else if (!want && !video.paused) video.pause();
+      };
+      new IntersectionObserver(
+        ([entry]) => {
+          visible = entry.isIntersecting;
+          sync();
+        },
+        { threshold: 0.35 },
+      ).observe(fig);
+      players.push({ sync });
+    });
+
+    // One control pauses every screen (WCAG 2.2.2: moving content can be paused).
+    toggle.hidden = false;
+    toggle.addEventListener('click', () => {
+      paused = !paused;
+      toggle.setAttribute('aria-pressed', String(paused));
+      label.textContent = paused ? 'Play screens' : 'Pause screens';
+      players.forEach((p) => p.sync());
+    });
+
+    // Don't run stories in a background tab.
+    document.addEventListener('visibilitychange', () => players.forEach((p) => p.sync()));
   }
 </script>
 
@@ -364,6 +569,14 @@ const services = [
   .key--over { background: rgb(var(--over-fill)); }
 
   /* Home phone */
+  .phone video {
+    display: block;
+    width: 100%;
+    height: auto;
+    border-radius: 30px;
+    background: rgb(var(--bg));
+  }
+
   .phone {
     flex: 0 0 auto;
     margin: 0 auto;
@@ -375,112 +588,6 @@ const services = [
     box-shadow: 0 24px 48px rgb(0 0 0 / 0.3);
   }
 
-  .screen {
-    height: 560px;
-    border-radius: 30px;
-    overflow: hidden;
-    background: rgb(var(--bg));
-    color: rgb(var(--fg));
-    display: flex;
-    flex-direction: column;
-    font-size: 13px;
-    line-height: 1.4;
-  }
-
-  .screen-top {
-    background: rgb(var(--shell));
-    color: rgb(var(--on-shell));
-    padding: 26px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .small {
-    font-size: 12px;
-    font-weight: 700;
-  }
-
-  .tiny {
-    font-size: 11px;
-    font-weight: 700;
-  }
-
-  .screen-top .small {
-    opacity: 0.8;
-  }
-
-  .muted {
-    color: rgb(var(--fg-muted));
-  }
-
-  .say {
-    font-size: 22px;
-    line-height: 1.15;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-  }
-
-  .screen-body {
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-  }
-
-  .mini-card {
-    background: rgb(var(--card));
-    border: 2px solid rgb(var(--border));
-    border-radius: 14px;
-    padding: 12px;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .week {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 6px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: rgb(var(--fg-muted));
-  }
-
-  .wday {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .wbar {
-    height: 48px;
-    border-radius: 6px;
-    transform-origin: bottom;
-    transition: transform 500ms var(--ease) calc(var(--i) * 90ms);
-  }
-
-  .wbar--good { background: rgb(var(--good-fill)); }
-  .wbar--watch { background: rgb(var(--watch-fill)); }
-  .wbar--over { background: rgb(var(--over-fill)); }
-  .wbar--muted { background: rgb(var(--muted)); }
-
-  .tiles {
-    display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 10px;
-  }
-
-  .tile {
-    gap: 2px;
-  }
-
-  .tile-value {
-    font-size: 20px;
-    font-weight: 900;
-  }
-
   /* Todos and Vault */
   .pair {
     display: flex;
@@ -490,146 +597,6 @@ const services = [
   .pair > div {
     flex: 1 1 440px;
     min-width: 0;
-  }
-
-  .mock {
-    max-width: 380px;
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .sheet {
-    background: rgb(var(--card));
-    color: rgb(var(--fg));
-    border-radius: 18px;
-    display: flex;
-    flex-direction: column;
-    font-size: 15px;
-    box-shadow: 0 16px 32px rgb(0 0 0 / 0.22);
-  }
-
-  .line {
-    border-bottom: 2px solid rgb(var(--divider));
-  }
-
-  .todo {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-  }
-
-  .box {
-    flex: 0 0 auto;
-    width: 22px;
-    height: 22px;
-    border-radius: 6px;
-    border: 2px solid rgb(var(--border-input));
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background-color 250ms var(--ease) 300ms, border-color 250ms var(--ease) 300ms;
-  }
-
-  .box--done {
-    border-color: rgb(var(--accent));
-    background: rgb(var(--accent));
-    color: rgb(var(--on-accent));
-  }
-
-  .tick {
-    transition: transform 300ms var(--ease) 400ms;
-  }
-
-  .todo-name {
-    flex: 1 1 auto;
-    font-weight: 700;
-  }
-
-  .done {
-    color: rgb(var(--fg-muted));
-    text-decoration: line-through;
-  }
-
-  .today {
-    font-size: 12px;
-    padding-inline: 10px;
-  }
-
-  .reminder {
-    align-self: flex-start;
-    margin-left: 24px;
-    background: rgb(var(--shell));
-    color: rgb(var(--on-shell));
-    border-radius: 14px;
-    padding: 12px 16px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    font-weight: 700;
-    font-size: 15px;
-    box-shadow: 0 12px 24px rgb(0 0 0 / 0.25);
-    transition: transform 450ms var(--ease) 800ms, opacity 300ms var(--ease) 800ms;
-  }
-
-  .vault-head {
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    padding: 14px 16px;
-    font-weight: 900;
-  }
-
-  .lock {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 12px;
-    font-weight: 700;
-    padding: 4px 10px;
-    border-radius: 999px;
-    background: rgb(var(--accent-tint));
-    color: rgb(var(--accent-strong));
-    transition: transform 400ms var(--ease) 200ms, opacity 300ms var(--ease) 200ms;
-  }
-
-  .entry {
-    display: flex;
-    align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
-  }
-
-  .letter {
-    width: 34px;
-    height: 34px;
-    border-radius: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    font-weight: 900;
-  }
-
-  .letter--records { background: rgb(var(--records-tint)); color: rgb(var(--records)); }
-  .letter--people { background: rgb(var(--people-tint)); color: rgb(var(--people)); }
-  .letter--home { background: rgb(var(--home-tint)); color: rgb(var(--home)); }
-
-  .entry-text {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .entry-name {
-    font-weight: 700;
-  }
-
-  .dots {
-    letter-spacing: 0.12em;
-    color: rgb(var(--fg-muted));
-    transition: opacity 400ms var(--ease) calc(600ms + var(--i) * 150ms);
   }
 
   /* Money */
@@ -771,6 +738,8 @@ const services = [
   }
 
   .fill {
+    width: 100%;
+    transform: scaleX(var(--f));
     height: 100%;
     background: rgb(var(--on-field));
     transform-origin: left;
@@ -781,35 +750,160 @@ const services = [
     background: rgb(var(--gold));
   }
 
-  /* Before state. The <head> script adds .motion only when motion can play. */
-  :global(.motion) [data-reveal]:not(.is-in) .wbar {
-    transform: scaleY(0);
+  /* ---------- Live screens: each band replays a short story while it's on screen ---------- */
+
+  .head-tools {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    gap: 8px 16px;
   }
 
-  :global(.motion) [data-reveal]:not(.is-in) .box--done {
+  .pause {
+    display: inline-flex;
+    align-items: center;
+    gap: 8px;
+    min-height: 44px;
+    padding: 0 16px;
+    border-radius: 999px;
+    border: 2px solid rgb(var(--fg) / 0.35);
     background: transparent;
-    border-color: rgb(var(--border-input));
+    color: rgb(var(--fg));
+    font: inherit;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    transition: border-color 200ms, background-color 200ms;
   }
 
-  :global(.motion) [data-reveal]:not(.is-in) .tick {
-    transform: scale(0);
+  .pause:hover {
+    border-color: rgb(var(--fg));
   }
 
-  :global(.motion) [data-reveal]:not(.is-in) .reminder {
+  .pause .i-play,
+  .pause[aria-pressed='true'] .i-pause {
+    display: none;
+  }
+
+  .pause[aria-pressed='true'] .i-play {
+    display: block;
+  }
+
+  /* Once a band is live, state changes answer at once instead of waiting on the reveal delays. */
+  [data-live] .fill {
+    transition-delay: 0ms;
+  }
+
+  /* Money */
+  .wallet {
+    position: relative;
+    transition: transform 400ms var(--ease), box-shadow 400ms var(--ease);
+  }
+
+  .wallet.is-hit {
+    transform: translateY(-4px);
+    box-shadow: 0 14px 28px rgb(0 0 0 / 0.22);
+  }
+
+  .float {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+    padding: 2px 10px;
+    border-radius: 999px;
+    font-size: 14px;
+    font-weight: 900;
     opacity: 0;
-    transform: translateY(16px);
+    pointer-events: none;
   }
 
-  :global(.motion) [data-reveal]:not(.is-in) .lock {
+  .float.minus {
+    background: rgb(var(--over-tint));
+    color: rgb(var(--over));
+  }
+
+  .float.plus {
+    background: rgb(var(--good) / 0.14);
+    color: rgb(var(--good));
+  }
+
+  .float.go {
+    animation: float-up 1800ms var(--ease) forwards;
+  }
+
+  @keyframes float-up {
+    0% { opacity: 0; transform: translateY(10px); }
+    15% { opacity: 1; transform: translateY(0); }
+    75% { opacity: 1; transform: translateY(-6px); }
+    100% { opacity: 0; transform: translateY(-18px); }
+  }
+
+  .bill-pill.pop {
+    animation: pop 450ms var(--ease);
+  }
+
+  @keyframes pop {
+    0% { transform: scale(0.6); }
+    60% { transform: scale(1.12); }
+  }
+
+  .sum,
+  .bills,
+  .odo,
+  .services {
+    transition: opacity 350ms var(--ease);
+  }
+
+  .is-resetting {
     opacity: 0;
-    transform: translateY(-8px);
   }
 
-  :global(.motion) [data-reveal]:not(.is-in) .dots {
+  /* Vehicle */
+  .status {
+    transition: background-color 300ms var(--ease), color 300ms var(--ease), padding 300ms var(--ease);
+  }
+
+  .status.pop {
+    animation: pop 450ms var(--ease);
+  }
+
+  .fill {
+    transition-property: transform, background-color;
+  }
+
+  [data-note] {
+    transition: opacity 250ms var(--ease);
+  }
+
+  [data-note].swap {
     opacity: 0;
   }
 
   :global(.motion) [data-reveal]:not(.is-in) .fill {
     transform: scaleX(0);
   }
+
+  /* The Todos and Vault clips are the cards themselves, the same size as the old mock cards. */
+  .clip {
+    margin: 0;
+    width: 100%;
+    max-width: 380px;
+    border-radius: 18px;
+    overflow: hidden;
+    background: rgb(var(--card));
+    box-shadow: 0 16px 32px rgb(0 0 0 / 0.22);
+    transition: transform 700ms var(--ease) 150ms, opacity 500ms var(--ease) 150ms;
+  }
+
+  .clip video {
+    display: block;
+    width: 100%;
+    height: auto;
+  }
+
+  :global(.motion) [data-reveal]:not(.is-in) .clip {
+    opacity: 0;
+    transform: translateY(32px) rotate(-2deg);
+  }
+
 </style>

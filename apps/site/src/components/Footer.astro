@@ -4,9 +4,8 @@ import { CONTRIBUTING, LICENSE, REPO } from '../data/site';
 
 <footer class="footer on-dark">
   <div class="wrap body">
-    <span class="mark" aria-hidden="true">my-app</span>
+    <span class="mark" aria-hidden="true">Habi</span>
     <div class="row">
-      <span>One private app that tells you what needs you today.</span>
       <div class="links">
         <a class="strong" href={CONTRIBUTING}>Make your own copy</a>
         <a href={REPO}>GitHub</a>
@@ -15,6 +14,7 @@ import { CONTRIBUTING, LICENSE, REPO } from '../data/site';
         <span>Made in the Philippines</span>
       </div>
     </div>
+    <p class="legal"><small>© 2026 Habi. All rights reserved.</small></p>
   </div>
 </footer>
 
@@ -63,5 +63,14 @@ import { CONTRIBUTING, LICENSE, REPO } from '../data/site';
 
   .strong {
     font-weight: 900;
+  }
+
+  .legal {
+    font-size: 14px;
+    opacity: 0.8;
+  }
+
+  .legal small {
+    font-size: inherit;
   }
 </style>

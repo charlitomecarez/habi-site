@@ -25,12 +25,41 @@ const { title, description } = Astro.props;
       // Tour bands start in their "before" state only when motion can play.
       if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
         document.documentElement.classList.add('motion');
+        // Failsafe: if the page scripts never run, drop the "before" states so nothing stays hidden.
+        setTimeout(function () {
+          if (!window.__motionReady) document.documentElement.classList.remove('motion');
+        }, 2500);
       }
     </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
     <slot />
+    <script>
+      // Sections marked [data-in] play their entrance once, as they come into view.
+      const targets = document.querySelectorAll<HTMLElement>('[data-in]');
+      const motion = document.documentElement.classList.contains('motion');
+
+      if (motion && 'IntersectionObserver' in window) {
+        const io = new IntersectionObserver(
+          (entries) => {
+            entries.forEach((entry) => {
+              // Tall sections can never be 20% visible, so filling half the screen counts too.
+              const enough =
+                entry.intersectionRatio >= 0.2 || entry.intersectionRect.height >= window.innerHeight * 0.5;
+              if (!entry.isIntersecting || !enough) return;
+              entry.target.classList.add('is-in');
+              io.unobserve(entry.target);
+            });
+          },
+          { threshold: [0, 0.1, 0.2, 0.4], rootMargin: '0px 0px -8% 0px' },
+        );
+        targets.forEach((el) => io.observe(el));
+      } else {
+        targets.forEach((el) => el.classList.add('is-in'));
+      }
+      (window as unknown as { __motionReady: boolean }).__motionReady = true;
+    </script>
   </body>
 </html>
 

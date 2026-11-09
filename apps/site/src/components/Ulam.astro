@@ -4,11 +4,11 @@ import { dishes, limits } from '../data/site';
 const first = dishes[0];
 ---
 
-<section class="ulam">
+<section class="ulam" data-in>
   <div class="wrap row">
     <div class="text">
-      <h2>Hungry? Roll today's ulam.</h2>
-      <p class="lead">Pick a limit, and my-app picks a dish that fits. This one runs in your browser, with no account and no AI call.</p>
+      <h2 class="rise">Hungry? Roll today's ulam.</h2>
+      <p class="lead">Pick a limit and roll. It runs right here, in your browser.</p>
       <div class="limits" role="group" aria-label="Daily limit" data-limits hidden>
         {limits.map((n) => (
           <button type="button" class="limit" data-limit={n} aria-pressed={n === 99 ? 'true' : 'false'}>₱{n} or less</button>
@@ -16,8 +16,8 @@ const first = dishes[0];
       </div>
     </div>
     <div class="table">
-      <div class="plate">
-        <div class="dish" aria-live="polite">
+      <div class="plate" data-plate>
+        <div class="dish" aria-live="polite" data-dish>
           <p class="dish-name" data-dish-name>{first.name}</p>
           <span class="price" data-dish-price>₱{first.price}</span>
         </div>
@@ -39,13 +39,53 @@ const first = dishes[0];
   const group = document.querySelector<HTMLElement>('[data-limits]')!;
   const buttons = Array.from(group.querySelectorAll<HTMLButtonElement>('[data-limit]'));
 
+  const plate = document.querySelector<HTMLElement>('[data-plate]')!;
+  const dish = document.querySelector<HTMLElement>('[data-dish]')!;
+  const icon = roll.querySelector<SVGElement>('svg')!;
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const ease = 'cubic-bezier(0.16, 1, 0.3, 1)';
+
   let limit = 99;
   let current = dishes[0];
+  let spin = 0;
 
-  function show() {
+  function paint() {
     name.textContent = current.name;
     price.textContent = `₱${current.price}`;
+  }
+
+  function show(animate = false) {
     buttons.forEach((b) => b.setAttribute('aria-pressed', String(Number(b.dataset.limit) === limit)));
+    if (!animate || !dish.animate) return paint();
+
+    // The plate spins, the old dish blurs away, and the new one settles in.
+    const out = reduce
+      ? [{ opacity: 1 }, { opacity: 0 }]
+      : [
+          { opacity: 1, transform: 'none', filter: 'blur(0)' },
+          { opacity: 0, transform: 'translateY(-14px) scale(0.92)', filter: 'blur(6px)' },
+        ];
+    const back = reduce
+      ? [{ opacity: 0 }, { opacity: 1 }]
+      : [
+          { opacity: 0, transform: 'translateY(14px) scale(0.92)', filter: 'blur(6px)' },
+          { opacity: 1, transform: 'none', filter: 'blur(0)' },
+        ];
+
+    dish.getAnimations().forEach((a) => a.cancel());
+    dish.animate(out, { duration: reduce ? 120 : 180, easing: 'ease-in', fill: 'forwards' }).finished.then(() => {
+      paint();
+      dish.animate(back, { duration: reduce ? 200 : 420, easing: ease, fill: 'forwards' });
+    }, paint);
+
+    if (!reduce) {
+      spin += 1;
+      plate.animate([{ transform: `rotate(${(spin - 1) * 360}deg)` }, { transform: `rotate(${spin * 360}deg)` }], {
+        duration: 700,
+        easing: ease,
+        fill: 'forwards',
+      });
+    }
   }
 
   function rollWithin(max: number, avoid: number) {
@@ -53,7 +93,7 @@ const first = dishes[0];
     const options = pool.filter((d) => d.id !== avoid);
     limit = max;
     current = options[Math.floor(Math.random() * options.length)] ?? pool[0];
-    show();
+    show(true);
   }
 
   buttons.forEach((b) =>
@@ -67,7 +107,12 @@ const first = dishes[0];
       }
     }),
   );
-  roll.addEventListener('click', () => rollWithin(limit, current.id));
+  roll.addEventListener('click', () => {
+    rollWithin(limit, current.id);
+    if (!reduce && icon.animate) {
+      icon.animate([{ transform: 'rotate(0)' }, { transform: 'rotate(360deg)' }], { duration: 600, easing: ease });
+    }
+  });
 
   group.hidden = false;
   roll.hidden = false;
@@ -127,6 +172,18 @@ const first = dishes[0];
     border: 2px solid rgb(var(--ink) / 0.45);
     background: transparent;
     color: rgb(var(--ink));
+  }
+
+  .limit {
+    transition: background-color 200ms, color 200ms, border-color 200ms, transform 150ms var(--ease);
+  }
+
+  .limit:hover {
+    border-color: rgb(var(--ink));
+  }
+
+  .limit:active {
+    transform: scale(0.96);
   }
 
   .limit[aria-pressed='true'] {
@@ -196,7 +253,30 @@ const first = dishes[0];
     cursor: pointer;
   }
 
+  .roll {
+    transition: transform 200ms var(--ease), box-shadow 200ms var(--ease);
+  }
+
+  @media (hover: hover) and (prefers-reduced-motion: no-preference) {
+    .roll:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 22px rgb(35 32 92 / 0.3);
+    }
+  }
+
   .roll:active {
     transform: translateY(1px);
+    box-shadow: none;
+    transition-duration: 80ms;
+  }
+
+  /* The plate slides onto the table as the section arrives. */
+  .plate {
+    transition: transform 1000ms var(--ease) 200ms, opacity 500ms var(--ease) 200ms;
+  }
+
+  :global(.motion) [data-in]:not(.is-in) .plate {
+    opacity: 0;
+    transform: translateX(80px) rotate(40deg);
   }
 </style>

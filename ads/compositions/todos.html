@@ -1,0 +1,134 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+</head>
+<body>
+<div id="root" class="ad" data-composition-id="todos" data-start="0" data-duration="12.5" data-width="1080" data-height="1920">
+  <div class="bg weave field-daily"></div>
+  <div class="strip strip--top"></div>
+  <div class="brandline"><span data-logo></span>Habi</div>
+  <h1 class="hook" id="hook">Never forget<br><em>the rent</em> again.</h1>
+
+  <div class="stage">
+    <div class="phone">
+      <div class="screen">
+        <div class="layer">
+          <div class="top">
+            <span class="small">Mon, Nov 9</span>
+            <span class="title">Todos</span>
+            <span class="small swap"><span id="left-a">3 left today</span><span id="left-b" style="opacity:0">2 left today</span></span>
+          </div>
+          <div class="stitch"></div>
+          <div class="body">
+            <div class="card card--flush">
+              <div class="row">
+                <span class="box"><span class="fillbox"></span><span data-icon="check"></span></span>
+                <span class="name muted">Renew OR/CR<span class="strike"></span></span>
+              </div>
+              <div class="row" id="rent">
+                <span class="hl"></span>
+                <span class="box" id="rent-box"><span class="fillbox" style="transform:scale(0)"></span><span data-icon="check" style="opacity:0"></span></span>
+                <span class="name" id="rent-name">Send rent to Ate<span class="strike" style="transform:scaleX(0)"></span></span>
+                <span class="pill pill--watch" id="rent-pill">Today</span>
+              </div>
+              <div class="row" id="rice">
+                <span class="hl"></span>
+                <span class="box"></span>
+                <span class="name">Buy rice, 5 kg</span>
+                <span class="pill pill--plain" id="rice-pill" style="opacity:0">Tomorrow</span>
+              </div>
+              <div class="row">
+                <span class="box"></span>
+                <span class="name">Pay Meralco</span>
+                <span class="pill pill--plain">Fri</span>
+              </div>
+              <div class="row">
+                <span class="box"></span>
+                <span class="name">Book the car wash</span>
+              </div>
+            </div>
+            <div class="card">
+              <span class="label">Done this week</span>
+              <div class="week">
+                <div class="wday"><span class="wbar good"></span>M</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar watch"></span>W</div>
+                <div class="wday"><span class="wbar good"></span>T</div>
+                <div class="wday"><span class="wbar rest"></span>F</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+                <div class="wday"><span class="wbar rest"></span>S</div>
+              </div>
+            </div>
+          </div>
+          <div class="tabs"><span>Home</span><span class="on">Todos</span><span>Money</span><span>Vehicle</span><span>More</span></div>
+        </div>
+        <div class="notif" id="notif">
+          <span class="notif-icon" data-icon="bell"></span>
+          <span class="notif-text"><span class="muted">Habi · now</span><strong>Send rent to Ate</strong><span>Due today, 5:00 PM</span></span>
+        </div>
+        <div class="toast" id="toast"><span data-icon="bell"></span>Reminder set for tomorrow, 9:00 AM</div>
+        <div class="tap"></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="sticker sticker--cream" id="s1" style="left: 24px; top: 1180px">Your phone tells you.</div>
+  <div class="sticker sticker--green" id="s2" style="right: 30px; top: 1030px">Check it off.</div>
+  <div class="sticker sticker--gold" id="s3" style="left: 30px; top: 1420px">Home stops asking.</div>
+
+  <div class="end weave field-daily" data-endline="Check it off. <em>Home stops asking.</em>"></div>
+  <div class="wipe"><span></span><span></span><span></span><span></span><span></span><span></span></div>
+</div>
+
+<script>
+  const A = Ad('todos');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['todos'] = A.tl;
+  const { tl } = A;
+  A.drift(12.5);
+  A.brandIn(0.1);
+  A.hookIn('#hook', 0.25);
+  const landed = A.phoneIn(0.8);
+  A.float(landed, 8.9);
+  tl.from('.wbar', { scaleY: 0, duration: 0.5, ease: 'back.out(1.6)', stagger: 0.08 }, 1.6);
+
+  // 5:00 PM: the reminder drops in.
+  tl.from('#notif', { yPercent: -160, duration: 0.6, ease: 'back.out(1.4)' }, 2.3);
+  A.sticker('#s1', 2.6, 4.4, -4);
+  A.tap(150, 50, 3.6);
+  tl.to('#notif', { yPercent: -160, duration: 0.4, ease: 'power3.in' }, 3.9);
+
+  // Rent gets checked off.
+  tl.to('#rent .hl', { opacity: 1, duration: 0.2 }, 4.3);
+  A.tap(34, 195, 4.4);
+  tl.to('#rent-box .fillbox', { scale: 1, duration: 0.25, ease: 'back.out(2)' }, 4.55);
+  tl.to('#rent-box [data-icon]', { opacity: 1, duration: 0.15 }, 4.7);
+  tl.to('#rent-name .strike', { scaleX: 1, duration: 0.35, ease: 'power2.out' }, 4.75);
+  tl.to('#rent-name', { color: 'rgb(90 85 120)', duration: 0.3 }, 4.8);
+  tl.to('#rent-pill', { scale: 0.5, opacity: 0, duration: 0.25 }, 4.9);
+  tl.to('#rent .hl', { opacity: 0, duration: 0.4 }, 5.2);
+  A.swap('#left-a', '#left-b', 5.0);
+  // Friday's bar turns green as the day's todo is done.
+  tl.set('.wday:nth-child(5) .wbar', { className: 'wbar good' }, 5.1);
+  tl.fromTo('.wday:nth-child(5) .wbar', { scaleY: 0.3 }, { scaleY: 1, duration: 0.5, ease: 'back.out(1.8)', immediateRender: false }, 5.1);
+  A.sticker('#s2', 5.0, 8.6, 4);
+
+  // Rice gets a reminder for tomorrow.
+  tl.to('#rice .hl', { opacity: 1, duration: 0.2 }, 6.2);
+  A.tap(220, 240, 6.3);
+  tl.fromTo('#rice-pill', { scale: 0.5, opacity: 0 }, { scale: 1, opacity: 1, duration: 0.35, ease: 'back.out(2)' }, 6.5);
+  tl.to('#rice .hl', { opacity: 0, duration: 0.4 }, 7.0);
+  tl.from('#toast', { y: 120, opacity: 0, duration: 0.5, ease: 'back.out(1.4)' }, 6.7);
+  A.sticker('#s3', 7.2, 8.7, -3);
+
+  A.wipe(9.0, (covered) => {
+    tl.set(['.stage', '.sticker', '.hook', '.brandline'], { opacity: 0 }, covered);
+    A.endCard(covered);
+  });
+</script>
+</body>
+</html>

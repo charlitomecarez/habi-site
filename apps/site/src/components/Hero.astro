@@ -1,17 +1,13 @@
 ---
-import { CONTRIBUTING, REPO, demoLines, facts } from '../data/site';
-
-const days = ['M', 'T', 'W', 'T', 'F', 'S', 'S'];
-// The still frame: Monday to Friday filled, Friday still waiting on the Meralco bill.
-const restTones = ['good', 'good', 'watch', 'good', 'watch', 'muted', 'muted'];
+import { CONTRIBUTING, REPO } from '../data/site';
 ---
 
-<section id="top" class="hero on-dark">
+<section id="top" class="hero on-dark" data-in>
   <div class="wrap grid">
     <div class="copy">
-      <p class="eyebrow">Open source · Android first · ₱0 to run</p>
       <h1>One private app that tells you what needs you today.</h1>
-      <p class="lede">Your todos, your ₱, your ADV's next oil change. Home reads them all and says the one thing that needs you.</p>
+      <p class="name"><strong lang="tl">Habi</strong> is Tagalog for "weave". The app weaves each part of your day into one Home, and the weave band is already its look.</p>
+      <p class="lede">Todos, money, your ride and more, in one app.</p>
       <div class="ctas">
         <a class="btn btn--cream" href={CONTRIBUTING}>
           Make your own copy
@@ -19,292 +15,100 @@ const restTones = ['good', 'good', 'watch', 'good', 'watch', 'muted', 'muted'];
         </a>
         <a class="btn btn--ghost" href={REPO}>See the source</a>
       </div>
-      <p class="note">No Play Store: you build the APK from your own fork. MIT license. Some modules want a free key you bring yourself.</p>
-
-      <div class="hook" data-hook hidden>
-        <p id="hook-label" class="hook-label">Tell Home about your week. Watch what it says.</p>
-        <div class="chips" role="group" aria-labelledby="hook-label">
-          {facts.map((f) => (
-            <button type="button" class="chip" data-fact={f.id} aria-pressed="false">{f.chip}</button>
-          ))}
-        </div>
-        <p class="sr-only" aria-live="polite" data-sr-say></p>
-      </div>
+      <p class="note">Open source · Android · ₱0 a month. You build your own copy; it's not on the Play Store.</p>
     </div>
 
+    <!-- The 26 s HyperFrames ad (source: ads/compositions/master.html in the repo root). -->
     <div class="stage">
-      <div
-        class="phone"
-        role="img"
-        aria-label="Demo of the my-app Home screen. Home says to pay Meralco by Friday. Money marks Meralco as paid. Home then says only the oil change needs you now."
-        data-phone
-      >
-        <div class="screen" aria-hidden="true" data-screen data-scene="home">
-          <div class="layer home">
-            <div class="top">
-              <span class="date">Mon, Nov 9</span>
-              <span class="say"><span data-sentence>{demoLines.first}</span><span class="caret" data-caret></span></span>
-            </div>
-            <div class="stitch"></div>
-            <div class="body">
-              <div class="card week">
-                <span class="label">This week</span>
-                <div class="days">
-                  {days.map((d, i) => (
-                    <div class="day">
-                      <span class="bar" data-bar data-tone={restTones[i]}></span>
-                      {d}
-                    </div>
-                  ))}
-                </div>
-              </div>
-              <div class="card needs">
-                <span class="label label--pad">Needs you</span>
-                <div data-demo-rows>
-                  <div class="row row--meralco" data-meralco>
-                    <span class="name">Meralco bill</span>
-                    <span class="pill pill--watch">Due soon</span>
-                    <span class="tap"></span>
-                  </div>
-                  <div class="row row--line">
-                    <span class="name">Oil change</span>
-                    <span class="pill pill--watch">120 km</span>
-                  </div>
-                  <div class="row">
-                    <span class="name">Renew OR/CR</span>
-                    <span class="pill pill--over">Overdue</span>
-                  </div>
-                </div>
-                <div data-custom-rows hidden></div>
-                <template data-row-tpl><div class="row row--top"><span class="name"></span><span class="pill"></span></div></template>
-                <div class="empty" data-empty hidden>Nothing on your list. Tap a chip to add one.</div>
-              </div>
-            </div>
-            <div class="tabs"><span class="on">Home</span><span>Todos</span><span>Money</span><span>Vehicle</span><span>More</span></div>
-          </div>
-
-          <div class="layer money">
-            <div class="money-head">
-              <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" stroke-linecap="round" stroke-linejoin="round"><path d="M15 6l-6 6 6 6"></path></svg>
-              <span>Money</span>
-            </div>
-            <div class="body body--money">
-              <div class="spent"><span>Spent this week</span><strong>₱4,820.75</strong></div>
-              <div class="card">
-                <span class="label label--pad">Bills</span>
-                <div class="bill row--line">
-                  <div class="bill-name"><span class="name">Meralco</span><span class="sub">₱2,315.40 · Due Fri</span></div>
-                  <span class="pill pill--watch" data-badge>Due soon</span>
-                </div>
-                <div class="bill">
-                  <div class="bill-name"><span class="name">Globe postpaid</span><span class="sub">₱1,299.00 · Due Nov 18</span></div>
-                  <span class="pill pill--plain">Nov 18</span>
-                </div>
-              </div>
-            </div>
-            <div class="toast">
-              <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12l5 5 9-10"></path></svg>
-              <span>Meralco marked as paid</span>
-            </div>
-            <div class="tabs"><span>Home</span><span>Todos</span><span class="on">Money</span><span>Vehicle</span><span>More</span></div>
-          </div>
-        </div>
-      </div>
-      <button type="button" class="toggle" data-toggle aria-pressed="false" hidden>Pause demo</button>
+      <figure class="reel" data-hero-reel>
+        <video
+          muted
+          loop
+          playsinline
+          preload="metadata"
+          poster="/ads/master.webp"
+          aria-label="Ad: the Habi tour. Home types what needs you, a todo gets checked off, Money adds up the wallets, the odometer climbs to the next oil change, and the vault unlocks with a PIN. Then ₱0 a month to run, and Make your own copy."
+        >
+          <source src="/ads/master.mp4" type="video/mp4" />
+        </video>
+      </figure>
     </div>
   </div>
   <div class="strip"></div>
 </section>
 
 <script>
-  import { demoLines, facts } from '../data/site';
+  // The ad plays while it's on screen. With reduce motion on, it stays on its poster frame.
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  const fig = document.querySelector<HTMLElement>('[data-hero-reel]')!;
+  const video = fig.querySelector('video')!;
+  let visible = false;
+  // Decoding video is heavy on a phone, so it waits until the page has settled: the visitor's first
+  // scroll, tap or key, or a few seconds after load. Until then the poster frame shows.
+  let ready = false;
 
-  type Tone = 'good' | 'watch' | 'muted';
-  type Frame = {
-    scene: 'home' | 'money';
-    line: 'first' | 'second' | 'custom';
-    typed: number;
-    band: number;
-    paid: boolean;
-    tap: boolean;
-    rowGone: boolean;
-    toast: boolean;
+  const sync = () => {
+    const want = ready && visible && !reduce && !document.hidden;
+    if (want && video.paused) video.play().catch(() => {});
+    else if (!want && !video.paused) video.pause();
   };
 
-  const rest = (): Frame => ({ scene: 'home', line: 'first', typed: 999, band: 5, paid: false, tap: false, rowGone: false, toast: false });
+  const start = () => {
+    if (ready) return;
+    ready = true;
+    sync();
+  };
+  ['pointerdown', 'pointermove', 'keydown', 'scroll', 'touchstart'].forEach((type) =>
+    window.addEventListener(type, start, { once: true, passive: true }),
+  );
+  const later = () => window.setTimeout(start, 4000);
+  if (document.readyState === 'complete') later();
+  else window.addEventListener('load', later, { once: true });
 
-  const $ = <T extends Element>(sel: string) => document.querySelector<T>(sel)!;
-  const phone = $<HTMLElement>('[data-phone]');
-  const screen = $<HTMLElement>('[data-screen]');
-  const sentence = $<HTMLElement>('[data-sentence]');
-  const caret = $<HTMLElement>('[data-caret]');
-  const bars = Array.from(document.querySelectorAll<HTMLElement>('[data-bar]'));
-  const demoRows = $<HTMLElement>('[data-demo-rows]');
-  const customRows = $<HTMLElement>('[data-custom-rows]');
-  const empty = $<HTMLElement>('[data-empty]');
-  const rowTpl = $<HTMLTemplateElement>('[data-row-tpl]');
-  const badge = $<HTMLElement>('[data-badge]');
-  const srSay = $<HTMLElement>('[data-sr-say]');
-  const toggle = $<HTMLButtonElement>('[data-toggle]');
-  const hook = $<HTMLElement>('[data-hook]');
-  const chips = Array.from(document.querySelectorAll<HTMLButtonElement>('[data-fact]'));
-
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  let frame = rest();
-  let picked: string[] = [];
-  let customText = '';
-  let timers: number[] = [];
-  let running = false;
-  let userPaused = false;
-
-  const lineText = () => (frame.line === 'custom' ? customText : demoLines[frame.line]);
-
-  function render() {
-    const text = lineText();
-    const custom = frame.line === 'custom';
-    sentence.textContent = text.slice(0, frame.typed);
-    caret.classList.toggle('is-on', frame.typed < text.length);
-
-    const fridayDone = frame.paid && frame.scene === 'home';
-    const tones: Tone[] = ['good', 'good', 'watch', 'good', fridayDone ? 'good' : 'watch', 'muted', 'muted'];
-    bars.forEach((bar, i) => (bar.dataset.tone = i < frame.band ? tones[i] : 'muted'));
-
-    screen.dataset.scene = frame.scene;
-    screen.toggleAttribute('data-tap', frame.tap);
-    screen.toggleAttribute('data-gone', frame.rowGone);
-    screen.toggleAttribute('data-toast', frame.toast);
-    badge.textContent = frame.paid ? 'Paid' : 'Due soon';
-    badge.className = 'pill ' + (frame.paid ? 'pill--good' : 'pill--watch');
-
-    const chosen = facts.filter((f) => picked.includes(f.id));
-    demoRows.hidden = custom;
-    customRows.hidden = !custom || chosen.length === 0;
-    empty.hidden = !custom || chosen.length > 0;
-    customRows.replaceChildren(
-      ...chosen.slice(0, 3).map((f) => {
-        const row = (rowTpl.content.firstElementChild as HTMLElement).cloneNode(true) as HTMLElement;
-        const [name, pill] = row.children as unknown as HTMLElement[];
-        name.textContent = f.row;
-        pill.classList.add('pill--' + f.tone);
-        pill.textContent = f.badge;
-        return row;
-      }),
-    );
-    srSay.textContent = custom ? text : '';
-  }
-
-  function at(ms: number, patch: Partial<Frame>) {
-    timers.push(
-      window.setTimeout(() => {
-        frame = { ...frame, ...patch };
-        render();
-      }, ms),
-    );
-  }
-
-  function typeText(text: string, start: number, speed: number) {
-    for (let i = 1; i <= text.length; i++) at(start + i * speed, { typed: i });
-    return start + text.length * speed;
-  }
-
-  function clearTimers() {
-    timers.forEach(clearTimeout);
-    timers = [];
-  }
-
-  function runDemo() {
-    clearTimers();
-    frame = { scene: 'home', line: 'first', typed: 0, band: 0, paid: false, tap: false, rowGone: false, toast: false };
-    render();
-    for (let d = 1; d <= 5; d++) at(400 + d * 180, { band: d });
-    const t = typeText(demoLines.first, 300, 28);
-    at(t + 700, { tap: true });
-    at(t + 1300, { scene: 'money', tap: false });
-    at(t + 2100, { paid: true, toast: true });
-    at(t + 3700, { scene: 'home', toast: false, line: 'second', typed: 0 });
-    at(t + 4000, { rowGone: true });
-    const t2 = typeText(demoLines.second, t + 3900, 28);
-    timers.push(window.setTimeout(runDemo, t2 + 2600));
-  }
-
-  function startDemo() {
-    if (running) return;
-    running = true;
-    runDemo();
-  }
-
-  function stopDemo() {
-    running = false;
-    clearTimers();
-  }
-
-  function setPaused(paused: boolean) {
-    toggle.setAttribute('aria-pressed', String(paused));
-    toggle.textContent = paused ? 'Play demo' : 'Pause demo';
-  }
-
-  function sayFor(ids: string[]) {
-    const chosen = facts.filter((f) => ids.includes(f.id));
-    if (!chosen.length) return 'Nothing needs you today. Enjoy it.';
-    const parts = chosen.slice(0, 2).map((f) => f.say);
-    if (chosen.length > 2) parts.push(`${chosen.length - 2} more on your list.`);
-    return parts.join(' ');
-  }
-
-  function pickFact(id: string) {
-    picked = picked.includes(id) ? picked.filter((x) => x !== id) : [...picked, id];
-    chips.forEach((c) => c.setAttribute('aria-pressed', String(picked.includes(c.dataset.fact!))));
-    customText = sayFor(picked);
-    userPaused = true;
-    stopDemo();
-    setPaused(true);
-    frame = { ...rest(), line: 'custom', typed: reduce ? 999 : 0 };
-    render();
-    if (!reduce) typeText(customText, 0, 18);
-  }
-
-  function backToDemo() {
-    picked = [];
-    customText = '';
-    chips.forEach((c) => c.setAttribute('aria-pressed', 'false'));
-    userPaused = false;
-    setPaused(false);
-    if (reduce) {
-      frame = rest();
-      render();
-    } else {
-      startDemo();
-    }
-  }
-
-  hook.hidden = false;
-  chips.forEach((c) => c.addEventListener('click', () => pickFact(c.dataset.fact!)));
-  toggle.addEventListener('click', () => {
-    if (toggle.getAttribute('aria-pressed') === 'true') {
-      backToDemo();
-    } else {
-      userPaused = true;
-      setPaused(true);
-      stopDemo();
-    }
-  });
-
-  if (!reduce) {
-    toggle.hidden = false;
-    new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting && !userPaused) startDemo();
-        else stopDemo();
-      },
-      { threshold: 0.3 },
-    ).observe(phone);
-  }
+  new IntersectionObserver(
+    ([entry]) => {
+      visible = entry.isIntersecting;
+      sync();
+    },
+    { threshold: 0.3 },
+  ).observe(fig);
+  document.addEventListener('visibilitychange', sync);
 </script>
 
 <style>
   .hero {
     background: rgb(var(--shell));
     color: rgb(var(--on-shell));
+  }
+
+  /* Entrance: the copy comes into focus line by line while the ad settles in. */
+  @keyframes hero-focus {
+    from {
+      opacity: 0;
+      transform: translateY(18px);
+      filter: blur(8px);
+    }
+  }
+
+  @keyframes reel-settle {
+    from {
+      opacity: 0;
+      transform: translateY(72px) rotate(-5deg) scale(0.94);
+    }
+  }
+
+  :global(.motion) .copy > * {
+    animation: hero-focus 900ms var(--ease) both;
+  }
+
+  :global(.motion) .copy > :nth-child(2) { animation-delay: 90ms; }
+  :global(.motion) .copy > :nth-child(3) { animation-delay: 200ms; }
+  :global(.motion) .copy > :nth-child(4) { animation-delay: 290ms; }
+  :global(.motion) .copy > :nth-child(5) { animation-delay: 360ms; }
+  :global(.motion) .copy > :nth-child(6) { animation-delay: 440ms; }
+
+  :global(.motion) .stage {
+    animation: reel-settle 1100ms var(--ease) 150ms both;
   }
 
   .grid {
@@ -325,24 +129,48 @@ const restTones = ['good', 'good', 'watch', 'good', 'watch', 'muted', 'muted'];
     gap: 24px;
   }
 
-  .eyebrow {
-    font-size: 13px;
-    font-weight: 700;
-    letter-spacing: 0.08em;
-    text-transform: uppercase;
-    opacity: 0.85;
-  }
-
   h1 {
     font-size: clamp(38px, 5.4vw, 66px);
     line-height: 1.02;
     letter-spacing: -0.03em;
   }
 
+  /* Why it's called Habi: a quiet aside under the headline, set off by a short weave stitch. */
+  .name {
+    position: relative;
+    max-width: 46ch;
+    padding-left: 18px;
+    font-size: 15px;
+    line-height: 1.5;
+    opacity: 0.88;
+  }
+
+  .name::before {
+    content: '';
+    position: absolute;
+    left: 0;
+    top: 3px;
+    bottom: 3px;
+    width: 4px;
+    border-radius: 2px;
+    background: repeating-linear-gradient(
+      180deg,
+      rgb(var(--good-fill)) 0 6px,
+      rgb(var(--watch-fill)) 6px 12px,
+      rgb(var(--over-fill)) 12px 18px
+    );
+  }
+
+  .name strong {
+    color: rgb(var(--gold));
+    font-weight: 900;
+  }
+
   .lede {
     font-size: 19px;
     line-height: 1.5;
     max-width: 34ch;
+    text-wrap: balance;
   }
 
   .ctas {
@@ -356,29 +184,11 @@ const restTones = ['good', 'good', 'watch', 'good', 'watch', 'muted', 'muted'];
     opacity: 0.85;
   }
 
-  .hook {
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    padding-top: 20px;
-    border-top: 2px solid rgb(var(--on-field) / 0.25);
-  }
-
-  .hook-label {
-    font-weight: 700;
-  }
-
-  .chips {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 8px;
-  }
-
-  /* Phone */
+  /* The ad */
   .stage {
     flex: 0 0 auto;
     margin: 0 auto;
-    width: 300px;
+    width: 340px;
     max-width: 100%;
     display: flex;
     flex-direction: column;
@@ -386,336 +196,22 @@ const restTones = ['good', 'good', 'watch', 'good', 'watch', 'muted', 'muted'];
     gap: 14px;
   }
 
-  .phone {
+  .reel {
+    margin: 0;
     width: 100%;
-    border-radius: 40px;
-    padding: 10px;
-    background: rgb(var(--bezel));
-    box-shadow: 0 0 0 2px rgb(var(--on-field) / 0.25);
-  }
-
-  .screen {
-    position: relative;
-    height: 610px;
-    border-radius: 30px;
+    aspect-ratio: 9 / 16;
+    border-radius: 28px;
     overflow: hidden;
-    background: rgb(var(--bg));
-    color: rgb(var(--fg));
-    font-size: 13px;
-    line-height: 1.4;
+    background: rgb(var(--night));
+    box-shadow:
+      0 0 0 2px rgb(var(--on-field) / 0.25),
+      0 28px 56px rgb(0 0 0 / 0.35);
   }
 
-  .layer {
-    position: absolute;
-    inset: 0;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .home {
-    transition: transform 450ms var(--ease), opacity 300ms var(--ease);
-  }
-
-  .money {
-    background: rgb(var(--bg));
-    transform: translateX(100%);
-    transition: transform 450ms var(--ease);
-    box-shadow: -8px 0 24px rgb(0 0 0 / 0.18);
-  }
-
-  [data-scene='money'] .home {
-    transform: translateX(-30%);
-    opacity: 0.4;
-  }
-
-  [data-scene='money'] .money {
-    transform: translateX(0);
-  }
-
-  .top {
-    background: rgb(var(--shell));
-    color: rgb(var(--on-shell));
-    padding: 26px 18px 18px;
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
-
-  .date {
-    font-size: 12px;
-    font-weight: 700;
-    opacity: 0.8;
-  }
-
-  .say {
-    min-height: 76px;
-    font-size: 22px;
-    line-height: 1.15;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-  }
-
-  .caret {
-    display: inline-block;
-    width: 3px;
-    height: 0.9em;
-    margin-left: 3px;
-    vertical-align: -0.08em;
-    background: rgb(var(--watch-fill));
-    opacity: 0;
-  }
-
-  .caret.is-on {
-    opacity: 1;
-  }
-
-  .stitch {
-    height: 8px;
-    background: repeating-linear-gradient(
-      90deg,
-      rgb(var(--good-fill)) 0 14px,
-      rgb(var(--on-shell)) 14px 18px,
-      rgb(var(--watch-fill)) 18px 32px,
-      rgb(var(--on-shell)) 32px 36px,
-      rgb(var(--over-fill)) 36px 50px,
-      rgb(var(--on-shell)) 50px 54px
-    );
-  }
-
-  .body {
-    padding: 14px;
-    display: flex;
-    flex-direction: column;
-    gap: 12px;
-    flex: 1 1 auto;
-  }
-
-  .body--money {
-    padding-top: 0;
-  }
-
-  .card {
-    background: rgb(var(--card));
-    border: 2px solid rgb(var(--border));
-    border-radius: 14px;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .week {
-    padding: 12px;
-    gap: 10px;
-  }
-
-  .label {
-    font-size: 12px;
-    font-weight: 700;
-    color: rgb(var(--fg-muted));
-  }
-
-  .label--pad {
-    padding: 10px 12px 4px;
-  }
-
-  .days {
-    display: grid;
-    grid-template-columns: repeat(7, minmax(0, 1fr));
-    gap: 6px;
-    text-align: center;
-    font-size: 11px;
-    font-weight: 700;
-    color: rgb(var(--fg-muted));
-  }
-
-  .day {
-    display: flex;
-    flex-direction: column;
-    gap: 4px;
-  }
-
-  .bar {
-    height: 22px;
-    border-radius: 6px;
-    background: rgb(var(--muted));
-    transition: background-color 300ms var(--ease);
-  }
-
-  .bar[data-tone='good'] { background: rgb(var(--good-fill)); }
-  .bar[data-tone='watch'] { background: rgb(var(--watch-fill)); }
-
-  .row {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 9px 12px;
-  }
-
-  .row--line {
-    border-bottom: 2px solid rgb(var(--divider));
-  }
-
-  .row--top {
-    border-top: 2px solid rgb(var(--divider));
-  }
-
-  .name {
-    flex: 1 1 auto;
-    font-weight: 700;
-  }
-
-  .row--meralco {
-    position: relative;
-    height: 40px;
-    padding-block: 0;
-    overflow: hidden;
-    border-bottom: 2px solid rgb(var(--divider));
-    transition: height 400ms var(--ease), opacity 250ms var(--ease), background-color 150ms;
-  }
-
-  [data-tap] .row--meralco {
-    background: rgb(var(--accent-tint));
-  }
-
-  [data-gone] .row--meralco {
-    height: 0;
-    opacity: 0;
-    border-bottom-width: 0;
-  }
-
-  .tap {
-    position: absolute;
-    left: 46%;
-    top: 50%;
-    width: 34px;
-    height: 34px;
-    margin: -17px 0 0 -17px;
-    border-radius: 50%;
-    border: 2px solid rgb(var(--accent));
-    background: rgb(35 32 92 / 0.15);
-    pointer-events: none;
-    opacity: 0;
-    transform: scale(0.4);
-    transition: opacity 200ms, transform 300ms var(--ease);
-  }
-
-  [data-tap] .tap {
-    opacity: 1;
-    transform: scale(1);
-  }
-
-  .empty {
-    padding: 9px 12px 12px;
-    color: rgb(var(--fg-muted));
-  }
-
-  .tabs {
-    display: grid;
-    grid-template-columns: repeat(5, minmax(0, 1fr));
-    text-align: center;
-    font-size: 10px;
-    font-weight: 700;
-    color: rgb(var(--fg-muted));
-    background: rgb(var(--card));
-    border-top: 2px solid rgb(var(--border));
-    padding: 10px 0 14px;
-  }
-
-  .tabs .on {
-    color: rgb(var(--accent));
-  }
-
-  .money-head {
-    padding: 26px 14px 12px;
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    font-size: 24px;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-  }
-
-  .spent {
-    background: rgb(var(--shell));
-    color: rgb(var(--on-shell));
-    border-radius: 18px;
-    padding: 14px;
-    display: flex;
-    justify-content: space-between;
-    align-items: baseline;
-  }
-
-  .spent span {
-    font-size: 12px;
-    font-weight: 700;
-    opacity: 0.85;
-  }
-
-  .spent strong {
-    font-size: 22px;
-    font-weight: 900;
-    letter-spacing: -0.02em;
-  }
-
-  .bill {
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    padding: 10px 12px;
-  }
-
-  .bill-name {
-    flex: 1 1 auto;
-    display: flex;
-    flex-direction: column;
-  }
-
-  .sub {
-    font-size: 11px;
-    color: rgb(var(--fg-muted));
-  }
-
-  [data-badge] {
-    transition: background-color 200ms, color 200ms, border-color 200ms;
-  }
-
-  .toast {
-    position: absolute;
-    left: 14px;
-    right: 14px;
-    bottom: 64px;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 12px 14px;
-    border-radius: 14px;
-    background: rgb(var(--shell));
-    color: rgb(var(--on-shell));
-    font-weight: 700;
-    opacity: 0;
-    transform: translateY(16px);
-    transition: transform 350ms var(--ease), opacity 250ms var(--ease);
-  }
-
-  [data-toast] .toast {
-    opacity: 1;
-    transform: translateY(0);
-  }
-
-  .toggle {
-    display: inline-flex;
-    align-items: center;
-    min-height: 44px;
-    padding: 0 16px;
-    border-radius: 999px;
-    border: 2px solid rgb(var(--on-field) / 0.45);
-    background: transparent;
-    color: rgb(var(--on-shell));
-    font-size: 14px;
-    font-weight: 700;
-    cursor: pointer;
-  }
-
-  .toggle:hover {
-    border-color: rgb(var(--on-field));
+  video {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
   }
 </style>

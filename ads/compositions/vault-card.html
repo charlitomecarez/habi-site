@@ -1,0 +1,67 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<link rel="stylesheet" href="../shared/brand.css">
+<script src="../shared/gsap.min.js"></script>
+<script src="../shared/ad.js"></script>
+<style>
+  .c .head { display: flex; align-items: center; justify-content: space-between; padding: 14px 16px; font-weight: 900; }
+  .c .head .t { display: inline-flex; align-items: center; gap: 10px; }
+  .c .pin { display: inline-flex; gap: 5px; opacity: 0; }
+  .c .pin i { width: 8px; height: 8px; border-radius: 50%; border: 2px solid rgb(var(--fg-muted)); position: relative; }
+  .c .pin b { position: absolute; inset: -2px; border-radius: 50%; background: rgb(var(--accent)); transform: scale(0); }
+  .c .lock { position: relative; display: inline-flex; align-items: center; gap: 6px; font-size: 12px; font-weight: 700; padding: 4px 10px; border-radius: 999px; background: rgb(var(--accent-tint)); color: rgb(26 24 70); }
+  .c .lock-open { position: absolute; inset: 0; display: inline-flex; align-items: center; gap: 6px; padding: 4px 10px; border-radius: 999px; background: rgb(214 240 228); color: rgb(var(--good)); opacity: 0; }
+  .c .entry-text span:first-child { font-weight: 700; }
+</style>
+</head>
+<body>
+<!-- The Vault card from the site, 380 x 269 at 2x. A seamless 10 s loop that starts and ends locked. -->
+<div id="root" class="card-only" data-composition-id="vault-card" data-start="0" data-duration="10" data-width="760" data-height="538" style="width:760px;height:538px">
+  <div class="c screen" style="height:269px">
+    <div class="head">
+      <span class="t">Vault <span class="pin" id="pin"><i><b></b></i><i><b></b></i><i><b></b></i><i><b></b></i></span></span>
+      <span class="lock"><span data-icon="lock"></span>Locked<span class="lock-open" id="open"><span data-icon="lock"></span>Open</span></span>
+    </div>
+    <div class="row" id="gcash" style="border-top: 2px solid rgb(228 216 184)"><span class="hl"></span><span class="letter letter--records">G</span><span class="entry-text"><span>GCash</span><span class="dots" id="gdots">••••••••</span></span></div>
+    <div class="row"><span class="letter letter--people">M</span><span class="entry-text"><span>Mail</span><span class="dots">••••••••••</span></span></div>
+    <div class="row"><span class="letter letter--home">W</span><span class="entry-text"><span>Home Wi-Fi</span><span class="dots">••••••••••••</span></span></div>
+
+    <div class="banner banner--bottom" id="toast"><span data-icon="copy"></span>GCash password copied. Clears in 30 s.</div>
+    <div class="tap"></div>
+  </div>
+</div>
+
+<script>
+  const A = Ad('vault-card');
+  window.__timelines = window.__timelines || {};
+  window.__timelines['vault-card'] = A.tl;
+  const { tl, $$ } = A;
+  const fills = $$('#pin b');
+
+  // The PIN goes in, dot by dot.
+  tl.to('#pin', { opacity: 1, duration: 0.25 }, 0.5);
+  fills.forEach((f, i) => tl.to(f, { scale: 1, duration: 0.2, ease: 'back.out(2.4)' }, 0.9 + i * 0.28));
+  tl.to(fills, { backgroundColor: 'rgb(11 122 85)', duration: 0.2 }, 2.1);
+
+  // It opens.
+  tl.to('#open', { opacity: 1, duration: 0.3 }, 2.4);
+  A.pop('.lock', 2.4);
+  tl.to('#pin', { opacity: 0, duration: 0.3 }, 2.8);
+
+  // Copy GCash.
+  tl.to('#gcash .hl', { opacity: 1, duration: 0.2 }, 3.5);
+  A.tapOn('#gcash .entry-text', 3.5);
+  tl.fromTo('#gdots', { letterSpacing: '0.12em' }, { letterSpacing: '0.3em', color: 'rgb(35 32 92)', duration: 0.3, yoyo: true, repeat: 1 }, 3.65);
+  tl.fromTo('#toast', { yPercent: 170 }, { yPercent: 0, duration: 0.5, ease: 'back.out(1.4)' }, 3.8);
+  tl.to('#gcash .hl', { opacity: 0, duration: 0.4 }, 4.6);
+  tl.to('#toast', { yPercent: 170, duration: 0.4, ease: 'power2.in' }, 6.4);
+
+  // It locks itself, back to where the loop began.
+  tl.to('#open', { opacity: 0, duration: 0.3 }, 7.2);
+  A.pop('.lock', 7.2);
+  tl.set(fills, { scale: 0, backgroundColor: 'rgb(35 32 92)' }, 7.6);
+</script>
+</body>
+</html>
