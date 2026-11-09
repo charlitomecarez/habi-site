@@ -2,7 +2,7 @@
 
 <img src="docs/images/readme-icon.svg" alt="Habi icon: four cream tiles on indigo, one with a check" width="112" />
 
-# my-app-site
+# habi-site
 
 ### The website for Habi, one private app that tells you what needs you today.
 
@@ -10,7 +10,7 @@
 
 **The landing page in Astro and the web app in Next.js, in one pnpm monorepo.**
 
-[![Version](https://img.shields.io/badge/site-1.0.0-23205C?style=flat-square)](https://github.com/charlitomecarez/my-app-site/releases/tag/site-v1.0.0)
+[![Version](https://img.shields.io/badge/site-1.0.0-23205C?style=flat-square)](https://github.com/charlitomecarez/habi-site/releases/tag/site-v1.0.0)
 [![Astro 7](https://img.shields.io/badge/Astro-7-BC52EE?style=flat-square&logo=astro&logoColor=white)](https://astro.build)
 [![Next.js 16](https://img.shields.io/badge/Next.js-16-000000?style=flat-square&logo=nextdotjs&logoColor=white)](https://nextjs.org)
 [![pnpm](https://img.shields.io/badge/pnpm-10.34.7-F69220?style=flat-square&logo=pnpm&logoColor=white)](https://pnpm.io)
@@ -40,15 +40,15 @@
 
 The landing page tells a visitor what Habi is and how to make their own copy. The hero plays a 26-second ad that walks through Home, Todos, Money, Vehicle and the Vault. The Home, Todos and Vault bands in the Tour play short HyperFrames loops, and the ad sources live in `ads/`. The page uses the same Banig look as the app: indigo, cream and woven colour fields.
 
-> **[Read the release notes](https://github.com/charlitomecarez/my-app-site/releases)** for each version of the site.
+> **[Read the release notes](https://github.com/charlitomecarez/habi-site/releases)** for each version of the site.
 
 ## Quick start
 
 ### Run the landing page
 
 ```sh
-git clone https://github.com/charlitomecarez/my-app-site.git
-cd my-app-site
+git clone https://github.com/charlitomecarez/habi-site.git
+cd habi-site
 nvm use          # Node 24, from .nvmrc
 pnpm install
 pnpm dev:site
@@ -180,7 +180,7 @@ Run `pnpm lint`, `pnpm build:site` and `pnpm build:web` before you open a pull r
 <summary><strong>Branches and releases</strong></summary>
 
 - `main` is the default branch. Make changes on a branch and open a pull request into `main`.
-- Each app has its own tags. A landing page release uses `site-vX.Y.Z`, for example [`site-v1.0.0`](https://github.com/charlitomecarez/my-app-site/releases/tag/site-v1.0.0).
+- Each app has its own tags. A landing page release uses `site-vX.Y.Z`, for example [`site-v1.0.0`](https://github.com/charlitomecarez/habi-site/releases/tag/site-v1.0.0).
 - Change the version in `apps/site/package.json` in the same pull request as the release.
 
 </details>
@@ -190,7 +190,7 @@ Run `pnpm lint`, `pnpm build:site` and `pnpm build:web` before you open a pull r
 - [Habi README](https://github.com/charlitomecarez/my-app#readme): what the app does.
 - [Habi CONTRIBUTING.md](https://github.com/charlitomecarez/my-app/blob/main/CONTRIBUTING.md): set up your own copy of the app.
 - [Habi design system](https://github.com/charlitomecarez/my-app/blob/main/docs/design-system.md): the Banig tokens that the site uses.
-- [Releases](https://github.com/charlitomecarez/my-app-site/releases): every release of the site.
+- [Releases](https://github.com/charlitomecarez/habi-site/releases): every release of the site.
 
 ## License
 

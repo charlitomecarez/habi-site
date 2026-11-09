@@ -1,5 +1,5 @@
 {
-  "name": "my-app-site",
+  "name": "habi-site",
   "private": true,
   "packageManager": "pnpm@10.34.7",
   "engines": {
