@@ -1,0 +1,67 @@
+---
+import { CONTRIBUTING, LICENSE, REPO } from '../data/site';
+---
+
+<footer class="footer on-dark">
+  <div class="wrap body">
+    <span class="mark" aria-hidden="true">my-app</span>
+    <div class="row">
+      <span>One private app that tells you what needs you today.</span>
+      <div class="links">
+        <a class="strong" href={CONTRIBUTING}>Make your own copy</a>
+        <a href={REPO}>GitHub</a>
+        <a href={LICENSE}>MIT license</a>
+        <a href="#top">Back to top</a>
+        <span>Made in the Philippines</span>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    background: rgb(var(--shell));
+    color: rgb(var(--on-shell));
+  }
+
+  .body {
+    padding-block: 56px 40px;
+    display: flex;
+    flex-direction: column;
+    gap: 28px;
+  }
+
+  .mark {
+    font-size: clamp(64px, 12vw, 160px);
+    line-height: 0.85;
+    font-weight: 900;
+    letter-spacing: -0.05em;
+  }
+
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 12px 32px;
+    font-size: 15px;
+    padding-top: 20px;
+    border-top: 2px solid rgb(var(--on-field) / 0.3);
+  }
+
+  .links {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 4px 24px;
+    align-items: center;
+  }
+
+  a {
+    color: inherit;
+    padding: 10px 0;
+  }
+
+  .strong {
+    font-weight: 900;
+  }
+</style>

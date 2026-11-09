@@ -1,0 +1,151 @@
+---
+const lines = [
+  ['Supabase', 'Database and sign-in'],
+  ['expo.dev', 'Builds the APK'],
+  ['Google', 'Sign in with Google'],
+  ['Firebase', 'Push notifications'],
+];
+---
+
+<section id="free" class="wrap free">
+  <div class="text">
+    <h2>
+      <span class="zero">₱0</span>
+      <span class="sub">A month, for your own copy.</span>
+    </h2>
+    <p>Every service it uses has a free plan that covers one person.</p>
+  </div>
+  <div class="receipt-wrap">
+    <div class="receipt">
+      <div class="receipt-head">
+        <span class="receipt-title">my-app</span>
+        <span class="muted small">Monthly bill for one person</span>
+      </div>
+      {lines.map(([name, what]) => (
+        <div class="line">
+          <span><strong>{name}</strong><br /><span class="muted small">{what}</span></span>
+          <span class="cost">₱0.00</span>
+        </div>
+      ))}
+      <div class="line total"><span>Total</span><span class="good">₱0.00</span></div>
+      <p class="keys">Sports, Inbox, Ulam and Find a work need a free key that you get yourself.</p>
+    </div>
+    <div class="tear" aria-hidden="true"></div>
+  </div>
+</section>
+
+<style>
+  .free {
+    padding-block: 96px 72px;
+    display: flex;
+    flex-wrap: wrap;
+    align-items: center;
+    justify-content: space-between;
+    gap: 48px;
+  }
+
+  .text {
+    flex: 1 1 340px;
+    min-width: 0;
+    max-width: 480px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
+  }
+
+  .text p {
+    color: rgb(var(--fg-muted));
+  }
+
+  h2 {
+    display: flex;
+    flex-direction: column;
+    gap: 16px;
+  }
+
+  .zero {
+    font-size: clamp(120px, 16vw, 220px);
+    line-height: 0.82;
+    letter-spacing: -0.06em;
+    color: rgb(var(--good));
+  }
+
+  .sub {
+    font-size: clamp(28px, 3.2vw, 40px);
+    line-height: 1.08;
+    letter-spacing: -0.02em;
+  }
+
+  .receipt-wrap {
+    flex: 0 1 400px;
+    min-width: 0;
+    transform: rotate(1.5deg);
+  }
+
+  .receipt {
+    background: rgb(var(--card));
+    border: 2px solid rgb(var(--border-input));
+    border-bottom: 0;
+    padding: 28px 24px 20px;
+    display: flex;
+    flex-direction: column;
+    gap: 14px;
+  }
+
+  .receipt-head {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 2px;
+    padding-bottom: 14px;
+    border-bottom: 2px dashed rgb(var(--border-input));
+  }
+
+  .receipt-title {
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .muted {
+    color: rgb(var(--fg-muted));
+  }
+
+  .small {
+    font-size: 14px;
+  }
+
+  .line {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+  }
+
+  .cost {
+    font-weight: 700;
+  }
+
+  .total {
+    padding-top: 14px;
+    border-top: 2px dashed rgb(var(--border-input));
+    font-size: 22px;
+    font-weight: 900;
+  }
+
+  .good {
+    color: rgb(var(--good));
+  }
+
+  .keys {
+    padding: 10px 12px;
+    border-radius: 10px;
+    background: rgb(var(--watch-tint));
+    font-size: 14px;
+  }
+
+  .tear {
+    height: 14px;
+    background-image: radial-gradient(circle at 10px 0, transparent 9px, rgb(var(--card)) 9.5px);
+    background-size: 20px 14px;
+    background-repeat: repeat-x;
+  }
+</style>

@@ -1,0 +1,33 @@
+---
+import Base from '../layouts/Base.astro';
+import Header from '../components/Header.astro';
+import Hero from '../components/Hero.astro';
+import RealLife from '../components/RealLife.astro';
+import Tour from '../components/Tour.astro';
+import Ulam from '../components/Ulam.astro';
+import Mosaic from '../components/Mosaic.astro';
+import Private from '../components/Private.astro';
+import Free from '../components/Free.astro';
+import Faq from '../components/Faq.astro';
+import CopyBand from '../components/CopyBand.astro';
+import Footer from '../components/Footer.astro';
+---
+
+<Base
+  title="my-app: one private app that tells you what needs you today"
+  description="An open-source Android app for your todos, money, vehicle and more. Home reads them all and says what needs you. Runs on ₱0 a month."
+>
+  <Header />
+  <main id="main">
+    <Hero />
+    <RealLife />
+    <Tour />
+    <Ulam />
+    <Mosaic />
+    <Private />
+    <Free />
+    <Faq />
+    <CopyBand />
+  </main>
+  <Footer />
+</Base>

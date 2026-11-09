@@ -1,0 +1,55 @@
+---
+import '../styles/global.css';
+
+interface Props {
+  title: string;
+  description: string;
+}
+
+const { title, description } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>{title}</title>
+    <meta name="description" content={description} />
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+    <meta name="theme-color" content="#23205c" />
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <script is:inline>
+      // Tour bands start in their "before" state only when motion can play.
+      if (!window.matchMedia('(prefers-reduced-motion: reduce)').matches) {
+        document.documentElement.classList.add('motion');
+      }
+    </script>
+  </head>
+  <body>
+    <a class="skip" href="#main">Skip to content</a>
+    <slot />
+  </body>
+</html>
+
+<style>
+  .skip {
+    position: absolute;
+    left: 16px;
+    top: -100px;
+    z-index: 10;
+    padding: 12px 18px;
+    border-radius: 12px;
+    background: rgb(var(--on-field));
+    color: rgb(var(--shell-field));
+    font-weight: 900;
+    text-decoration: none;
+    --focus: var(--on-field);
+  }
+
+  .skip:focus {
+    top: 12px;
+  }
+</style>

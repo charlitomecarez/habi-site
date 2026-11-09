@@ -4,3 +4,10 @@ packages:
 ignoredBuiltDependencies:
   - sharp
   - unrs-resolver
+
+# @astrojs/astro2tsx is built against @emnapi/runtime 1.11.3 but does not list it.
+# Without this, pnpm gives it the 2.0 beta and `astro check` crashes.
+packageExtensions:
+  '@astrojs/astro2tsx@0.1':
+    dependencies:
+      '@emnapi/runtime': 1.11.3
