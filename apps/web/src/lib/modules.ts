@@ -265,7 +265,7 @@ export function searchModules(query: string): ModuleSection[] {
 
 export type ModuleFilter = { features: Features; hidden: readonly string[]; isAdmin: boolean };
 
-/** Why a module does not show, or null when it shows. */
+/** Why a module does not show, or null when it shows. "web" means the module only works in the phone app. */
 export function hiddenReason(m: ModuleEntry, f: ModuleFilter): "admin" | "server" | "hidden" | "web" | null {
   if (m.adminOnly && !f.isAdmin) return "admin";
   if (m.needs && !f.features[m.needs]) return "server";

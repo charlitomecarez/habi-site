@@ -11,7 +11,9 @@ function first(value: string | string[] | undefined): string | null {
 
 async function LoginFromParams({ searchParams }: Pick<PageProps<"/login">, "searchParams">) {
   const params = await searchParams;
-  const initialError = first(params.error) === "google" ? loginErrorMessage(null, "google") : null;
+  const errorParam = first(params.error);
+  const initialError =
+    errorParam === "google" || errorParam === "denied" ? loginErrorMessage(null, errorParam) : null;
   return <LoginForm next={first(params.next)} initialError={initialError} />;
 }
 

@@ -3,12 +3,8 @@ import type { SupabaseClient } from "@supabase/supabase-js";
 import { getSupabaseEnv } from "@/lib/env";
 import type { Database } from "@/types/database";
 
-let client: SupabaseClient<Database> | undefined;
-
+// createBrowserClient is a singleton only in the browser, so nothing is shared between server requests.
 export function createClient(): SupabaseClient<Database> {
-  if (!client) {
-    const { url, anonKey } = getSupabaseEnv();
-    client = createBrowserClient<Database>(url, anonKey);
-  }
-  return client;
+  const { url, anonKey } = getSupabaseEnv();
+  return createBrowserClient<Database>(url, anonKey);
 }

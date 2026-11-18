@@ -19,6 +19,7 @@ export async function createClient(): Promise<SupabaseClient<Database>> {
           );
         } catch {
           // Called from a Server Component; the proxy refreshes sessions.
+          // setAll's headers argument is dropped: Next can't set response headers here, and the proxy adds the cache headers.
         }
       },
     },

@@ -1,4 +1,4 @@
-export type LoginErrorKind = "google" | "send" | "verify";
+export type LoginErrorKind = "google" | "send" | "verify" | "denied";
 
 const NOT_ALLOWED = "This email can't sign in to Habi.";
 const EXPIRED = "That code has expired. Send a new one.";
@@ -10,6 +10,7 @@ export function loginErrorMessage(
   e: { code?: string; message?: string } | null,
   kind: LoginErrorKind,
 ): string {
+  if (kind === "denied") return NOT_ALLOWED;
   const code = e?.code;
   // An unknown email with shouldCreateUser: false comes back as otp_disabled
   // ("Signups not allowed for otp"); signup_disabled is the sign-up-off code.

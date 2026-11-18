@@ -1,4 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
+import { callbackErrorKind } from "@/lib/callback-error";
 import { safeNext } from "@/lib/safe-next";
 import { seedMoneyDefaults } from "@/lib/seed";
 import { createClient } from "@/lib/supabase/server";
@@ -7,8 +8,15 @@ import { createClient } from "@/lib/supabase/server";
 export async function GET(request: NextRequest) {
   const { searchParams, origin } = request.nextUrl;
   const code = searchParams.get("code");
-  const failed = () => NextResponse.redirect(new URL("/login?error=google", origin));
-  if (searchParams.get("error") || !code) return failed();
+  const redirect = (path: string) => {
+    const res = NextResponse.redirect(new URL(path, origin));
+    res.headers.set("Cache-Control", "private, no-store");
+    return res;
+  };
+  const failed = () => redirect("/login?error=google");
+  const kind = callbackErrorKind(searchParams);
+  if (kind === "denied") return redirect("/login?error=denied");
+  if (kind || !code) return failed();
 
   const supabase = await createClient();
   const { error } = await supabase.auth.exchangeCodeForSession(code);
@@ -17,5 +25,5 @@ export async function GET(request: NextRequest) {
     return failed();
   }
   await seedMoneyDefaults(supabase);
-  return NextResponse.redirect(new URL(safeNext(searchParams.get("next")), origin));
+  return redirect(safeNext(searchParams.get("next")));
 }
