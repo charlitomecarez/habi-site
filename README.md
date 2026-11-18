@@ -24,7 +24,7 @@
 
 > [!IMPORTANT]
 > This repository holds the website only. The app itself lives in [charlitomecarez/my-app](https://github.com/charlitomecarez/my-app).
-> The web app in `apps/web` is a Next.js template for now. The landing page in `apps/site` is the released part.
+> The web app in `apps/web` is in early work. The landing page in `apps/site` is the released part.
 
 <div align="center">
 
@@ -70,7 +70,7 @@ Astro writes a static site to `apps/site/dist`. Any static host can serve that f
 pnpm dev:web
 ```
 
-The web app is the `create-next-app` template. It has no features yet.
+The web app signs in with Google or an email code and shows a Home and a sidebar of modules. The pages are placeholders for now. See `apps/web/README.md` for the local Supabase setup, the deploy steps and the owner checklist.
 
 ## How the site works
 
@@ -170,7 +170,8 @@ Run `pnpm lint`, `pnpm build:site` and `pnpm build:web` before you open a pull r
 - `apps/site/src/data/site.ts`: the links, the hero chips, the dishes and the module groups.
 - `apps/site/src/styles/global.css`: the Banig tokens for the light and dark themes, the weave and the shared buttons.
 - `apps/site/public/`: the favicon.
-- `apps/web/`: the Next.js template.
+- `apps/web/`: the Habi web app (Next.js).
+- `packages/banig/`: the shared Banig tokens.
 - `docs/images/`: the images for this README.
 - `.impeccable/`: design critique snapshots from Impeccable.
 
