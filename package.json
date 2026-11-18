@@ -10,6 +10,10 @@
     "build:site": "pnpm --filter site build",
     "dev:web": "pnpm --filter web dev",
     "build:web": "pnpm --filter web build",
-    "lint": "pnpm -r lint"
+    "lint": "pnpm -r lint",
+    "test": "vitest run"
+  },
+  "devDependencies": {
+    "vitest": "^5.1.1"
   }
 }
