@@ -20,6 +20,12 @@ describe("safeNext", () => {
     "/login?next=%2Fmoney",
     "/\tevil.com",
     "money",
+    "/..//evil.com",
+    "/.//evil.com",
+    "/%2e%2e//evil.com",
+    "/a/..//evil.com",
+    "/a/../login",
+    "/%2e/auth/callback?code=x",
   ])("falls back to the root for %j", (next) => {
     expect(safeNext(next)).toBe("/");
   });

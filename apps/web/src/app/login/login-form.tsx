@@ -137,7 +137,7 @@ export function LoginForm({ next, initialError }: LoginFormProps) {
           <div className="flex flex-col gap-2">
             <h2 className="text-title font-bold text-ink">Check your email</h2>
             <p id={sentId} className="text-body text-ink-muted">
-              We sent a code to <span className="font-bold break-all text-ink">{email.trim()}</span>.
+              I sent a code to <span className="font-bold break-all text-ink">{email.trim()}</span>.
             </p>
           </div>
           <form noValidate onSubmit={onVerifyCode} className="flex flex-col gap-4">

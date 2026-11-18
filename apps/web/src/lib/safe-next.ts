@@ -19,6 +19,10 @@ export function safeNext(next: string | null | undefined): string {
     return "/";
   }
   if (url.origin !== BASE) return "/";
-  if (PUBLIC_PATHS.some((p) => url.pathname === p || url.pathname.startsWith(`${p}/`))) return "/";
-  return url.pathname + url.search + url.hash;
+  // URL collapses dot-segments ("/..//evil.com" becomes "//evil.com"), so check
+  // the normalised path again before returning it.
+  const path = url.pathname;
+  if (path.startsWith("//") || path.startsWith("/\\")) return "/";
+  if (PUBLIC_PATHS.some((p) => path === p || path.startsWith(`${p}/`))) return "/";
+  return path + url.search + url.hash;
 }
