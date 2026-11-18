@@ -6,34 +6,45 @@ import type { Database } from "@/types/database";
 
 async function updateSession(request: NextRequest) {
   let response = NextResponse.next({ request });
-  const { url, anonKey } = getSupabaseEnv();
-  const supabase = createServerClient<Database>(url, anonKey, {
-    cookies: {
-      getAll() {
-        return request.cookies.getAll();
+  // Anti-caching headers from setAll; kept so they survive response re-creation.
+  let authHeaders: Record<string, string> = {};
+  let signedIn = false;
+  try {
+    const { url, anonKey } = getSupabaseEnv();
+    const supabase = createServerClient<Database>(url, anonKey, {
+      cookies: {
+        getAll() {
+          return request.cookies.getAll();
+        },
+        setAll(cookiesToSet, headers) {
+          cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
+          response = NextResponse.next({ request });
+          cookiesToSet.forEach(({ name, value, options }) =>
+            response.cookies.set(name, value, options),
+          );
+          authHeaders = { ...authHeaders, ...headers };
+          Object.entries(authHeaders).forEach(([k, v]) => response.headers.set(k, v));
+        },
       },
-      setAll(cookiesToSet) {
-        cookiesToSet.forEach(({ name, value }) => request.cookies.set(name, value));
-        response = NextResponse.next({ request });
-        cookiesToSet.forEach(({ name, value, options }) =>
-          response.cookies.set(name, value, options),
-        );
-      },
-    },
-  });
-  // getClaims validates the JWT and refreshes the session if needed.
-  const { data } = await supabase.auth.getClaims();
-  return { response, signedIn: !!data?.claims };
+    });
+    // getClaims validates the JWT and refreshes the session if needed.
+    const { data } = await supabase.auth.getClaims();
+    signedIn = !!data?.claims;
+  } catch (error) {
+    console.error("proxy: session check failed, treating as signed out", error);
+  }
+  return { response, authHeaders, signedIn };
 }
 
 export async function proxy(request: NextRequest) {
-  const { response, signedIn } = await updateSession(request);
+  const { response, authHeaders, signedIn } = await updateSession(request);
   const { pathname, search } = request.nextUrl;
   const target = authRedirect(pathname + search, signedIn);
   if (!target) return response;
 
   const redirect = NextResponse.redirect(new URL(target, request.url));
   response.cookies.getAll().forEach((c) => redirect.cookies.set(c));
+  Object.entries(authHeaders).forEach(([k, v]) => redirect.headers.set(k, v));
   return redirect;
 }
 
