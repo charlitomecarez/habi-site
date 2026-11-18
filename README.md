@@ -150,15 +150,20 @@ No. Every name, amount and reading on the page is example data.
 
 Run these from the repository root.
 
-| Command           | What it does                                                |
-| ----------------- | ----------------------------------------------------------- |
-| `pnpm dev:site`   | Starts the landing page dev server.                         |
-| `pnpm build:site` | Builds the landing page into `apps/site/dist`.              |
-| `pnpm dev:web`    | Starts the Next.js dev server.                              |
-| `pnpm build:web`  | Builds the Next.js app.                                     |
-| `pnpm lint`       | Runs `astro check` for the site and ESLint for the web app. |
+| Command           | What it does                                                          |
+| ----------------- | --------------------------------------------------------------------- |
+| `pnpm dev`        | Starts both dev servers: site on `:4321`, web app on `:3000`.         |
+| `pnpm dev:site`   | Starts the landing page dev server.                                   |
+| `pnpm dev:web`    | Starts the Next.js dev server.                                        |
+| `pnpm build`      | Builds both apps.                                                     |
+| `pnpm build:site` | Builds the landing page into `apps/site/dist`.                        |
+| `pnpm build:web`  | Builds the Next.js app.                                               |
+| `pnpm start`      | Serves both production builds (run `pnpm build` first).               |
+| `pnpm start:site` | Serves the built landing page (`astro preview`).                      |
+| `pnpm start:web`  | Serves the built Next.js app (`next start`).                          |
+| `pnpm lint`       | Runs `astro check` for the site and ESLint for the web app.           |
 
-Run `pnpm lint`, `pnpm build:site` and `pnpm build:web` before you open a pull request.
+Run `pnpm lint` and `pnpm build` before you open a pull request.
 
 </details>
 

@@ -6,10 +6,15 @@
     "node": ">=22.23.4"
   },
   "scripts": {
+    "dev": "pnpm --filter \"./apps/*\" --parallel dev",
     "dev:site": "pnpm --filter site dev",
-    "build:site": "pnpm --filter site build",
     "dev:web": "pnpm --filter web dev",
+    "build": "pnpm --filter \"./apps/*\" build",
+    "build:site": "pnpm --filter site build",
     "build:web": "pnpm --filter web build",
+    "start": "pnpm --filter \"./apps/*\" --parallel start",
+    "start:site": "pnpm --filter site start",
+    "start:web": "pnpm --filter web start",
     "lint": "pnpm -r lint",
     "test": "vitest run"
   },
