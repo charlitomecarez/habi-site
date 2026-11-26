@@ -31,6 +31,17 @@ const { title, description } = Astro.props;
         }, 2500);
       }
     </script>
+    <script is:inline>
+      // Cloudflare Web Analytics. Vercel serves this site, so Cloudflare cannot add the beacon itself.
+      // Only the live host counts visits, not local dev or Vercel preview URLs.
+      if (location.hostname === 'habi.charliworks.com') {
+        var beacon = document.createElement('script');
+        beacon.defer = true;
+        beacon.src = 'https://static.cloudflareinsights.com/beacon.min.js';
+        beacon.setAttribute('data-cf-beacon', '{"token": "ccdc5e31d665450c8634a1eb9c831610"}');
+        document.head.appendChild(beacon);
+      }
+    </script>
   </head>
   <body>
     <a class="skip" href="#main">Skip to content</a>
